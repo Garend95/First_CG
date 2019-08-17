@@ -74,7 +74,7 @@
     <LibraryPath>C:\glfw-3.2.1.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\glfw-3.2.1.bin.WIN32\include;$(IncludePath)</IncludePath>
+    <IncludePath>C:\glfw-3.2.1.bin.WIN32\include;C:\glfw-3.2.1.bin.WIN32\glm;$(IncludePath)</IncludePath>
     <LibraryPath>C:\glfw-3.2.1.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -131,11 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\Triangle_incomplete.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="..\lightFragment.shader" />
+    <None Include="..\lightVertex.shader" />
     <None Include="fragment.shader" />
     <None Include="vertex.shader" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Triangle_incomplete.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
