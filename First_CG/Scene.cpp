@@ -99,52 +99,46 @@ int main(void)
 	glDepthFunc(GL_GREATER);
 
 	float coordinates[] = {
-		0,0,0,  255,0,0, 0,0,1,
-		4,4,0, 	255,0,0, 0,0,1,
-		0,4,0, 	255,0,0, 0,0,1,
-		0,0,0, 	255,0,0, 0,0,1,
-		4,0,0, 	255,0,0, 0,0,1,
-		4,4,0, 	255,0,0, 0,0,1,
-		4,0,0, 	255,0,0, 1,0,0,
-		4,4,-4,	 255,0,0, 1,0,0,
-		4,4,0, 	255,0,0, 1,0,0,
-		4,0,0, 	255,0,0, 1,0,0,
-		4,0,-4,	 255,0,0, 1,0,0,
-		4,4,-4,	 255,0,0, 1,0,0,
-		0,0,-4,	 255,0,0, 0,0,-1,
-		4,4,-4,	 255,0,0, 0,0,-1,
-		4,0,-4,	 255,0,0, 0,0,-1,
-		0,0,-4,	 255,0,0, 0,0,-1,
-		0,4,-4,	 255,0,0, 0,0,-1,
-		4,4,-4,	 255,0,0, 0,0,-1,
-		0,0,0, 	255,0,0, -1,0,0,
-		0,4,-4,	 255,0,0, -1,0,0,
-		0,0,-4,	 255,0,0, -1,0,0,
-		0,0,0, 	255,0,0, -1,0,0,
-		0,4,0, 	255,0,0,  -1,0,0,
-		0,4,-4,	 255,0,0, -1,0,0,
-		4,4,0, 	255,0,0,   0,1,0,
-		4,4,-4,	 255,0,0,  0,1,0,
-		0,4,-4,	 255,0,0,  0,1,0,
-		4,4,0, 	255,0,0,   0,1,0,
-		0,4,-4,	 255,0,0,  0,1,0,
-		0,4,0,	255,0,0	   0,1,0,
-		4,0,0, 	255,0,0,   0,-1,0,
-		4,0,-4,	 255,0,0,  0,-1,0,
-		0,0,-4,	 255,0,0,  0,-1,0,
-		4,0,0, 	255,0,0,   0,-1,0,
-		0,0,-4,	 255,0,0,  0,-1,0,
-		0,0,0,	255,0,0	   0,-1,0
+		0,0,0,  255,0,0,
+		4,4,0, 	255,0,0,
+		0,4,0, 	255,0,0,
+		0,0,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,4,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,0,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		4,0,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		0,0,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		0,0,0, 	255,0,0,
+		0,4,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		4,4,-4,	 255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		0,4,0,	255,0,0
 	
 	};
 
 	float lightCoordinates[] = {
-		7,0,0, 255,255,255, 0,0,1,
-		7,1,0, 255,255,255,	0,0,1,
-		6,1,0, 255,255,255,	0,0,1,
-		7,0,0, 255,255,255,	0,0,1,
-		6,1,0, 255,255,255,	0,0,1,
-		6,0,0, 255,255,255	0,0,1
+		7,0,0, 255,255,255,
+		7,1,0, 255,255,255,
+		6,1,0, 255,255,255,
+		7,0,0, 255,255,255,
+		6,1,0, 255,255,255,
+		6,0,0, 255,255,255
 	};
 	
 	unsigned int buffer[2], VAO; //buffer for coordinates
@@ -156,14 +150,11 @@ int main(void)
 	glBindVertexArray(VAO);
 
 	//our stride is 6 to accomodate for both the coordinates and colors of the cube
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 	//for the light source
 	unsigned int lightVAO;
@@ -173,14 +164,12 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(lightCoordinates), lightCoordinates, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
 
 	/*unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
