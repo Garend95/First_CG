@@ -99,103 +99,75 @@ int main(void)
 	glDepthFunc(GL_GREATER);
 
 	float coordinates[] = {
-		0,0,0, 
-		4,4,0, 
-		0,4,0, 
-		0,0,0, 
-		4,0,0, 
-		4,4,0, 
-		4,0,0, 
-		4,4,-4,
-		4,4,0, 
-		4,0,0, 
-		4,0,-4,
-		4,4,-4,
-		0,0,-4,
-		4,4,-4,
-		4,0,-4,
-		0,0,-4,
-		0,4,-4,
-		4,4,-4,
-		0,0,0, 
-		0,4,-4,
-		0,0,-4,
-		0,0,0, 
-		0,4,0, 
-		0,4,-4,
-		4,4,0, 
-		4,4,-4,
-		0,4,-4,
-		4,4,0, 
-		0,4,-4,
-		0,4,0
+		0,0,0,  255,0,0,
+		4,4,0, 	255,0,0,
+		0,4,0, 	255,0,0,
+		0,0,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,4,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		4,0,0, 	255,0,0,
+		4,0,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		4,0,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,-4,	 255,0,0,
+		0,0,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		0,0,-4,	 255,0,0,
+		0,0,0, 	255,0,0,
+		0,4,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		4,4,-4,	 255,0,0,
+		0,4,-4,	 255,0,0,
+		4,4,0, 	255,0,0,
+		0,4,-4,	 255,0,0,
+		0,4,0,	255,0,0
 	
 	};
 
 	float lightCoordinates[] = {
-		7,0,0,
-		7,1,0,
-		6,1,0,
-		7,0,0,
-		6,1,0,
-		6,0,0,
+		7,0,0, 255,255,255,
+		7,1,0, 255,255,255,
+		6,1,0, 255,255,255,
+		7,0,0, 255,255,255,
+		6,1,0, 255,255,255,
+		6,0,0, 255,255,255
 	};
 	
-	float lightColors[] = {
-		255,255,255,
-		255,255,255,
-		255,255,255,
-		255,255,255,
-		255,255,255,
-		255,255,255
-	};
-
-	float colors[] {
-		255,0,0,
-		255,0,0,
-		255,0,0,
-		255,0,0,
-		255,0,0,
-		255,0,0,
-		255,0,0,
-		 255,0,0,
-		255,0,0,
-		255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		 255,0,0,
-		255,0,0,
-		 255,0,0,
-		 255,0,0,
-		255,0,0,
-		255,0,0,
-		 255,0,0,
-		255,0,0,
-		 255,0,0,
-		 255,0,0,
-		255,0,0,
-		 255,0,0,
-		255,0,0
-	};
-
-	unsigned int buffer, VAO;
-	glGenBuffers(1, &buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	unsigned int buffer[2], VAO; //buffer for coordinates
+	glGenBuffers(1, buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);
 
-
-	GLintptr vertex_color_offset = 3 * sizeof(float);
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &VAO); 
 	glBindVertexArray(VAO);
+
+	//our stride is 6 to accomodate for both the coordinates and colors of the cube
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)vertex_color_offset);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
+
+	//for the light source
+	unsigned int lightVAO;
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lightCoordinates), lightCoordinates, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)0);
+	glEnableVertexAttribArray(0);
+
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 6, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 	
 
@@ -231,7 +203,7 @@ int main(void)
 	/*unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
 	glUniformMatrix4fv(viewProjSpace, 1, GL_FALSE, value_ptr(mvp));*/
 
-	glUseProgram(program);
+	//glUseProgram(program);
 
 	//unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
 
@@ -250,13 +222,24 @@ int main(void)
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
 
-		glBindVertexArray(buffer);
+		glBindVertexArray(VAO);
 
-		 glDrawArrays(GL_TRIANGLES,  0, 14 * 3);
+		//sum of faces * 3
+		 glDrawArrays(GL_TRIANGLES,  0, 36);
 		
-		 //Swap front and back buffers 
-		glfwSwapBuffers(window);
 
+
+		 glUseProgram(lightProgram);
+
+		 glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
+		 glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
+
+		 glBindVertexArray(lightVAO);
+
+		 glDrawArrays(GL_TRIANGLES, 0, 6);
+		 //Swap front and back buffers 
+		
+		 glfwSwapBuffers(window);
 		// Poll for and process events 
 		glfwPollEvents();
 	}
