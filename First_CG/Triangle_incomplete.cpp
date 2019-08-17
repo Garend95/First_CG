@@ -99,51 +99,94 @@ int main(void)
 	glDepthFunc(GL_GREATER);
 
 	float coordinates[] = {
-		0,0,0, 255,0,0,
-		4,4,0, 255,0,0,
-		0,4,0, 255,0,0,
-		0,0,0, 255,0,0,
-		4,0,0, 255,0,0,
-		4,4,0, 255,0,0,
-		4,0,0, 255,0,0,
-		4,4,-4, 255,0,0,
-		4,4,0, 255,0,0,
-		4,0,0, 255,0,0,
-		4,0,-4, 255,0,0,
-		4,4,-4, 255,0,0,
-		0,0,-4, 255,0,0,
-		4,4,-4, 255,0,0,
-		4,0,-4, 255,0,0,
-		0,0,-4, 255,0,0,
-		0,4,-4, 255,0,0,
-		4,4,-4, 255,0,0,
-		0,0,0, 255,0,0,
-		0,4,-4, 255,0,0,
-		0,0,-4, 255,0,0,
-		0,0,0, 255,0,0,
-		0,4,0, 255,0,0,
-		0,4,-4, 255,0,0,
-		4,4,0, 255,0,0,
-		4,4,-4, 255,0,0,
-		0,4,-4, 255,0,0,
-		4,4,0, 255,0,0,
-		0,4,-4, 255,0,0,
-		0,4,0, 255,0,0,
-		//light cube
-		7,0,0, 255,255,255,
-		7,1,0, 255,255,255,
-		6,1,0, 255,255,255,
-		7,0,0, 255,255,255,
-		6,1,0, 255,255,255,
-		6,0,0, 255,255,255
+		0,0,0, 
+		4,4,0, 
+		0,4,0, 
+		0,0,0, 
+		4,0,0, 
+		4,4,0, 
+		4,0,0, 
+		4,4,-4,
+		4,4,0, 
+		4,0,0, 
+		4,0,-4,
+		4,4,-4,
+		0,0,-4,
+		4,4,-4,
+		4,0,-4,
+		0,0,-4,
+		0,4,-4,
+		4,4,-4,
+		0,0,0, 
+		0,4,-4,
+		0,0,-4,
+		0,0,0, 
+		0,4,0, 
+		0,4,-4,
+		4,4,0, 
+		4,4,-4,
+		0,4,-4,
+		4,4,0, 
+		0,4,-4,
+		0,4,0
+	
+	};
 
+	float lightCoordinates[] = {
+		7,0,0,
+		7,1,0,
+		6,1,0,
+		7,0,0,
+		6,1,0,
+		6,0,0,
+	};
+	
+	float lightColors[] = {
+		255,255,255,
+		255,255,255,
+		255,255,255,
+		255,255,255,
+		255,255,255,
+		255,255,255
+	};
 
+	float colors[] {
+		255,0,0,
+		255,0,0,
+		255,0,0,
+		255,0,0,
+		255,0,0,
+		255,0,0,
+		255,0,0,
+		 255,0,0,
+		255,0,0,
+		255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		 255,0,0,
+		255,0,0,
+		 255,0,0,
+		 255,0,0,
+		255,0,0,
+		255,0,0,
+		 255,0,0,
+		255,0,0,
+		 255,0,0,
+		 255,0,0,
+		255,0,0,
+		 255,0,0,
+		255,0,0
 	};
 
 	unsigned int buffer, VAO;
 	glGenBuffers(1, &buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates) * sizeof(float), coordinates, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);
 
 
 	GLintptr vertex_color_offset = 3 * sizeof(float);
@@ -181,6 +224,10 @@ int main(void)
 
 	unsigned int program = CreateShader(vertexSource, fragmentSource);
 
+	string lightVertSource = ParseShader("lightVertex.shader");
+	string lightFragSource = ParseShader("lightFragment.shader");
+	
+	unsigned int lightProgram = CreateShader(lightVertSource, lightFragSource);
 	/*unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
 	glUniformMatrix4fv(viewProjSpace, 1, GL_FALSE, value_ptr(mvp));*/
 
