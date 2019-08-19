@@ -214,6 +214,7 @@ int main(void)
 	/*unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
 	glUniformMatrix4fv(viewProjSpace, 1, GL_FALSE, value_ptr(mvp));*/
 
+	unsigned int worldSpace = glGetUniformLocation(program, "Model")
 	//glUseProgram(program);
 
 	//unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
@@ -232,6 +233,7 @@ int main(void)
 		mat4 mv = View * Model;
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
+		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model)); 
 
 		glBindVertexArray(VAO);
 
@@ -244,6 +246,7 @@ int main(void)
 
 		 glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		 glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
+		 glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
 
 		 glBindVertexArray(lightVAO);
 
