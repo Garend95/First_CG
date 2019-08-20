@@ -15,7 +15,7 @@ void main()
 	vec3 ambient = ambientStrength * vec3(1.0f, 1.0f, 0.0f);
 
 	vec3 norm = normalize(CubeNormal);
-	vec4 lightSource = vec4(-2, 0.5, -0.5, 1);
+	vec4 lightSource = vec4(-4, 8, -0.5, 1);
 	vec3 lightDir = normalize(vec3(lightSource) - FragPos);
 
 	float diff = max(dot(norm, lightDir), 0.0);

@@ -81,7 +81,49 @@ void processInput(GLFWwindow* window)
 		cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
 }
 
+double lastX = 640;
+double lastY = 400;
+bool firstMouse = true;
+float startingPitch = 0, startingYaw = 0;
+bool starting = true;
 
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	float pitch = startingPitch, yaw = startingYaw;
+
+	if (firstMouse)
+	{
+		lastX = xpos;
+		lastY = ypos;
+		firstMouse = false;
+	}
+
+	float xoffset = float(xpos - lastX);
+	float yoffset = float(lastY - ypos);
+	lastX = xpos;
+	lastY = ypos;
+
+	float sensitivity = 0.05;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
+
+	yaw += xoffset;
+	pitch += yoffset;
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	startingPitch = pitch;
+	startingYaw = yaw;
+
+	glm::vec3 front;
+	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	front.y = sin(glm::radians(pitch));
+	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	cameraFront = glm::normalize(front);
+}
 
 int main(void)
 {
@@ -255,7 +297,7 @@ int main(void)
 	//this helps translate the light source
 	mat4 Model2 = translate(Model, vec3(0.0f, 2.0f, 4.0f));
 
-	vec3 lightPos = vec3(6.5, 0.5, -0.5);
+	vec3 lightPos = vec3(-6.5, -10, -0.5);
 	string vertexSource = ParseShader("vertex.shader");
 	string fragmentSource = ParseShader("fragment.shader");
 
@@ -289,6 +331,7 @@ int main(void)
 		
 		
 		processInput(window);
+		glfwSetCursorPosCallback(window, mouse_callback);
 
 		View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 

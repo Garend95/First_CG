@@ -1,2 +1,3 @@
 ﻿  Scene.cpp
+C:\Users\garen\source\repos\Capstone\First_CG\First_CG\Scene.cpp(106,26): warning C4305:  'initializing': truncation from 'double' to 'float'
   First_CG.vcxproj -> C:\Users\garen\source\repos\Capstone\First_CG\Debug\First_CG.exe
