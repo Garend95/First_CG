@@ -11,7 +11,8 @@ out vec3 var_color;
 //out vec3 Normal;
 uniform mat4 mvp;
 //uniform mat4 mv;
-uniform mat4 Model;
+//currently model 2 has replaced the 
+uniform mat4 Model2;
 
 
 void main()

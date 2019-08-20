@@ -63,6 +63,26 @@ static unsigned int CreateShader(const string& vertexShader, const string& fragm
 	return program;
 }
 
+vec3 cameraPos = vec3(0.0f, 0.0f, 3.0f);
+vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
+vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
+
+void processInput(GLFWwindow* window)
+{
+	
+	float cameraSpeed = 0.05f; // adjust accordingly
+	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraFront;
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		cameraPos -= normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+		cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
+}
+
+
+
 int main(void)
 {
 	GLFWwindow* window;
@@ -72,7 +92,7 @@ int main(void)
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(1280, 800, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -139,12 +159,42 @@ int main(void)
 	};
 
 	float lightCoordinates[] = {
-		7,0,0, 255,255,255, 0,0,1,
-		7,1,0, 255,255,255,	0,0,1,
-		6,1,0, 255,255,255,	0,0,1,
-		7,0,0, 255,255,255,	0,0,1,
-		6,1,0, 255,255,255,	0,0,1,
-		6,0,0, 255,255,255,	0,0,1
+		7,0,0,  255,255,255, 0,0,1,
+		7,1,0,  255,255,255, 0,0,1,
+		6,1,0,  255,255,255, 0,0,1,
+		7,0,0,  255,255,255, 0,0,1,
+		6,1,0,  255,255,255, 0,0,1,
+		6,0,0,  255,255,255, 0,0,1,
+		7,0,0,  255,255,255, 1,0,0,
+		7,1,-1,	255,255,255,  1,0,0,
+		7,1,0,	255,255,255, 1,0,0,
+		7,0,0,	255,255,255, 1,0,0,
+		7,0,-1,	255,255,255,  1,0,0,
+		7,1,-1,	255,255,255,  1,0,0,
+		6,0,-1, 255,255,255,  0,0,-1,
+		7,1,-1,	255,255,255,  0,0,-1,
+		7,0,-1,	255,255,255,  0,0,-1,
+		6,0,-1,	255,255,255,  0,0,-1,
+		6,1,-1,	255,255,255,  0,0,-1,
+		7,1,-1,	255,255,255,  0,0,-1,
+		6,0,0,  255,255,255, -1,0,0,
+		6,1,-1,	255,255,255,  -1,0,0,
+		6,0,-1,	255,255,255,  -1,0,0,
+		6,0,0,	255,255,255, -1,0,0,
+		6,1,0,	255,255,255,  -1,0,0,
+		6,1,-1,	255,255,255,  -1,0,0,
+		7,1,0,  255,255,255,   0,1,0,
+		7,1,-1,	255,255,255,   0,1,0,
+		6,1,-1,	255,255,255,   0,1,0,
+		7,1,0,	255,255,255,   0,1,0,
+		6,1,-1,	255,255,255,   0,1,0,
+		6,1,0,	255,255,255,   0,1,0,
+		7,0,0,  255,255,255,   0,-1,0,
+		7,0,-1,	255,255,255,   0,-1,0,
+		6,0,-1,	255,255,255,   0,-1,0,
+		7,0,0,	255,255,255,   0,-1,0,
+		6,0,-1,	255,255,255,   0,-1,0,
+		6,0,0,	255,255,255,   0,-1,0
 	};
 
 	unsigned int buffer[2], VAO; //buffer for coordinates
@@ -200,7 +250,10 @@ int main(void)
 		(float)4.0 / (float)3.0, 0.1f, 100.0f);
 
 	Model = translate(Model, vec3(0.0f, 0.0f, -1.0f));
-	Model = glm::rotate(Model, 0.5236f, vec3(0, 1, 0));
+	//Model = glm::rotate(Model, 0.5236f, vec3(0, 1, 0));
+
+	//this helps translate the light source
+	mat4 Model2 = translate(Model, vec3(0.0f, 2.0f, 4.0f));
 
 	vec3 lightPos = vec3(6.5, 0.5, -0.5);
 	string vertexSource = ParseShader("vertex.shader");
@@ -220,22 +273,39 @@ int main(void)
 
 		//unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
 
+	/* // Camera attributes for rotating around the 
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+	*/
 
 	float angle = 0;
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+		
+		
+		processInput(window);
+
+		View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+
 		// Render here 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//float distance = -0.1;
 		glUseProgram(program);
-		//mat4 Model = glm::rotate(Model, 57.29578f, vec3(0,1,0));
+		
+
 		mat4 mvp = Projection * View * Model;
+		Model2 = Projection * View * Model2;
 		mat4 mv = View * Model;
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
-		//glUniform3f(glGetUniformLocation(program, "lightPos"),GLfloat v0,GLfloat v1,GLfloat v2,GLfloat v3);
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
 		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
+		
+		//glUniformMatrix4fv(glGetUniformLocation(program, "Model2"), 1, GL_FALSE, value_ptr(Model2));
 
 		glBindVertexArray(VAO);
 
@@ -246,13 +316,13 @@ int main(void)
 
 		glUseProgram(lightProgram);
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
+		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
-		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
+		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "Model2"), 1, GL_FALSE, value_ptr(Model2));
 
 		glBindVertexArray(lightVAO);
 
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 		//Swap front and back buffers 
 
 		glfwSwapBuffers(window);
