@@ -18,7 +18,7 @@ uniform mat4 Model2;
 void main()
 {
 	var_color = aColor;
-	gl_Position = mvp * vec4(aPos, 1);
+	gl_Position = Model2 * vec4(aPos, 1);
 	//FragPos = vec3(Model * vec4(aPos, 1));
 	//Normal = aNormal;
 };

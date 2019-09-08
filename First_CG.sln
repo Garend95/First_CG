@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.168
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "First_CG", "First_CG\First_CG.vcxproj", "{F890A8C1-40FB-4B0B-8B36-04B9BF0F7FB1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LearnOpenglFromScratch", "LearnOpenglFromScratch\LearnOpenglFromScratch.vcxproj", "{366697B0-AC1A-4797-8A0E-76E31FE8B61E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{F890A8C1-40FB-4B0B-8B36-04B9BF0F7FB1}.Release|x64.Build.0 = Release|x64
 		{F890A8C1-40FB-4B0B-8B36-04B9BF0F7FB1}.Release|x86.ActiveCfg = Release|Win32
 		{F890A8C1-40FB-4B0B-8B36-04B9BF0F7FB1}.Release|x86.Build.0 = Release|Win32
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Debug|x64.ActiveCfg = Debug|x64
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Debug|x64.Build.0 = Debug|x64
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Debug|x86.ActiveCfg = Debug|Win32
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Debug|x86.Build.0 = Debug|Win32
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Release|x64.ActiveCfg = Release|x64
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Release|x64.Build.0 = Release|x64
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Release|x86.ActiveCfg = Release|Win32
+		{366697B0-AC1A-4797-8A0E-76E31FE8B61E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

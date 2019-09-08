@@ -11,8 +11,8 @@ in vec3 var_color;
 
 void main()
 {
-	float ambientStrength = 1;
-	vec3 ambient = ambientStrength * vec3(255,255,255);
+	float ambientStrength = 0.001;
+	vec3 ambient = ambientStrength * vec3(0f,1f,1f);
 	
 	/*vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(gl_position - FragPos);

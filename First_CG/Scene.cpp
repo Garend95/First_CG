@@ -63,7 +63,7 @@ static unsigned int CreateShader(const string& vertexShader, const string& fragm
 	return program;
 }
 
-vec3 cameraPos = vec3(0.0f, 0.0f, 3.0f);
+vec3 cameraPos = vec3(0.0f, 0.0f, 8.0f);
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
 
@@ -79,6 +79,12 @@ void processInput(GLFWwindow* window)
 		cameraPos -= normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		cameraPos += normalize(cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window, GLFW_KEY_SPACE ) == GLFW_PRESS)
+		cameraPos += cameraSpeed * cameraUp;
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
+		cameraPos -= cameraSpeed * cameraUp;
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+		cameraFront = vec3(-cameraFront.x, cameraFront.y, -cameraFront.z);
 }
 
 double lastX = 640;
@@ -152,9 +158,9 @@ int main(void)
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 	}
 
-	/*glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);*/
+	glFrontFace(GL_CCW);
 
 	glClearDepth(-1);
 	glEnable(GL_DEPTH_TEST);
@@ -191,12 +197,12 @@ int main(void)
 		4,4,0, 	255,0,0,   0,1,0,
 		0,4,-4,	 255,0,0,  0,1,0,
 		0,4,0,	255,0,0,   0,1,0,
-		4,0,0, 	255,0,0,   0,-1,0,
-		4,0,-4,	 255,0,0,  0,-1,0,
-		0,0,-4,	 255,0,0,  0,-1,0,
-		4,0,0, 	255,0,0,   0,-1,0,
-		0,0,-4,	 255,0,0,  0,-1,0,
-		0,0,0,	255,0,0,   0,-1,0
+		0,0,-4, 255,0,0,   0,-1,0,// 4,0,0, 	
+		4,0,-4,	 255,0,0,  0,-1,0,// 4,0,-4,	
+		4,0,0,	 255,0,0,  0,-1,0,// 0,0,-4,	
+		0,0,0, 	255,0,0,   0,-1,0,// 4,0,0, 	
+		0,0,-4,	 255,0,0,  0,-1,0,// 0,0,-4,	
+		4,0,0,	255,0,0,   0,-1,0//	 0,0,0,	
 
 	};
 
@@ -231,12 +237,12 @@ int main(void)
 		7,1,0,	255,255,255,   0,1,0,
 		6,1,-1,	255,255,255,   0,1,0,
 		6,1,0,	255,255,255,   0,1,0,
-		7,0,0,  255,255,255,   0,-1,0,
-		7,0,-1,	255,255,255,   0,-1,0,
-		6,0,-1,	255,255,255,   0,-1,0,
-		7,0,0,	255,255,255,   0,-1,0,
-		6,0,-1,	255,255,255,   0,-1,0,
-		6,0,0,	255,255,255,   0,-1,0
+		6,0,-1,  255,255,255,   0,-1,0,// 7,0,0,
+		7,0,-1,	255,255,255,   0,-1,0,// 7,0,-1
+		7,0,0,	255,255,255,   0,-1,0,// 6,0,-1
+		6,0,0,	255,255,255,   0,-1,0,// 7,0,0,
+		6,0,-1,	255,255,255,   0,-1,0,// 6,0,-1
+		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
 	};
 
 	unsigned int buffer[2], VAO; //buffer for coordinates
@@ -262,7 +268,7 @@ int main(void)
 	glGenVertexArrays(1, &lightVAO);
 	glBindVertexArray(lightVAO);
 
-	//do I need to bind the second buffer at all? Can I do by the first one only??
+	//do I need to bind the second buffer at all? Can I make do by the first one only??
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(lightCoordinates), lightCoordinates, GL_STATIC_DRAW);
 
@@ -297,7 +303,7 @@ int main(void)
 	//this helps translate the light source
 	mat4 Model2 = translate(Model, vec3(0.0f, 2.0f, 4.0f));
 
-	vec3 lightPos = vec3(-6.5, -10, -0.5);
+	vec3 lightPos = vec3(-6.5, -10, -1);
 	string vertexSource = ParseShader("vertex.shader");
 	string fragmentSource = ParseShader("fragment.shader");
 
@@ -331,11 +337,14 @@ int main(void)
 		
 		
 		processInput(window);
-		glfwSetCursorPosCallback(window, mouse_callback);
+
+		
+		//glfwSetCursorPosCallback(window, mouse_callback);
 
 		View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
 		// Render here 
+		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//float distance = -0.1;
 		glUseProgram(program);
@@ -347,6 +356,8 @@ int main(void)
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
 		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
+		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));
+		// where worldSpace = glGetUniformLocation(program, "Model");
 		
 		//glUniformMatrix4fv(glGetUniformLocation(program, "Model2"), 1, GL_FALSE, value_ptr(Model2));
 
@@ -355,7 +366,7 @@ int main(void)
 		//sum of faces * 3
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-
+		
 
 		glUseProgram(lightProgram);
 
