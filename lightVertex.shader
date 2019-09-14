@@ -9,16 +9,16 @@ out vec4 gl_Position;
 
 out vec3 var_color;
 //out vec3 Normal;
-uniform mat4 mvp;
+//uniform mat4 mvp;
 //uniform mat4 mv;
 //currently model 2 has replaced the 
-uniform mat4 Model2;
+uniform mat4 mvpLight;
 
 
 void main()
 {
 	var_color = aColor;
-	gl_Position = Model2 * vec4(aPos, 1);
+	gl_Position = mvpLight * vec4(aPos, 1);
 	//FragPos = vec3(Model * vec4(aPos, 1));
 	//Normal = aNormal;
 };

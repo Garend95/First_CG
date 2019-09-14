@@ -109,7 +109,7 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	lastX = xpos;
 	lastY = ypos;
 
-	float sensitivity = 0.05;
+	float sensitivity = 0.1;
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 
@@ -162,47 +162,47 @@ int main(void)
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
-	glClearDepth(-1);
+	/*glClearDepth(-1);
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_GREATER);
-
+	glDepthFunc(GL_LESS);*/
+	
 	float coordinates[] = {
-		0,0,0,  255,0,0, 0,0,1,
-		4,4,0, 	255,0,0, 0,0,1,
-		0,4,0, 	255,0,0, 0,0,1,
-		0,0,0, 	255,0,0, 0,0,1,
-		4,0,0, 	255,0,0, 0,0,1,
-		4,4,0, 	255,0,0, 0,0,1,
-		4,0,0, 	255,0,0, 1,0,0,
-		4,4,-4,	 255,0,0, 1,0,0,
-		4,4,0, 	255,0,0, 1,0,0,
-		4,0,0, 	255,0,0, 1,0,0,
-		4,0,-4,	 255,0,0, 1,0,0,
-		4,4,-4,	 255,0,0, 1,0,0,
-		0,0,-4,	 255,0,0, 0,0,-1,
-		4,4,-4,	 255,0,0, 0,0,-1,
-		4,0,-4,	 255,0,0, 0,0,-1,
-		0,0,-4,	 255,0,0, 0,0,-1,
-		0,4,-4,	 255,0,0, 0,0,-1,
-		4,4,-4,	 255,0,0, 0,0,-1,
-		0,0,0, 	255,0,0, -1,0,0,
-		0,4,-4,	 255,0,0, -1,0,0,
-		0,0,-4,	 255,0,0, -1,0,0,
-		0,0,0, 	255,0,0, -1,0,0,
-		0,4,0, 	255,0,0,  -1,0,0,
-		0,4,-4,	 255,0,0, -1,0,0,
-		4,4,0, 	255,0,0,   0,1,0,
-		4,4,-4,	 255,0,0,  0,1,0,
-		0,4,-4,	 255,0,0,  0,1,0,
-		4,4,0, 	255,0,0,   0,1,0,
-		0,4,-4,	 255,0,0,  0,1,0,
-		0,4,0,	255,0,0,   0,1,0,
-		0,0,-4, 255,0,0,   0,-1,0,// 4,0,0, 	
-		4,0,-4,	 255,0,0,  0,-1,0,// 4,0,-4,	
-		4,0,0,	 255,0,0,  0,-1,0,// 0,0,-4,	
-		0,0,0, 	255,0,0,   0,-1,0,// 4,0,0, 	
-		0,0,-4,	 255,0,0,  0,-1,0,// 0,0,-4,	
-		4,0,0,	255,0,0,   0,-1,0//	 0,0,0,	
+		0,0,0,  255,100,0, 0,0,1,
+		4,4,0, 	255,100,0, 0,0,1,
+		0,4,0, 	255,100,0, 0,0,1,
+		0,0,0, 	255,100,0, 0,0,1,
+		4,0,0, 	255,100,0, 0,0,1,
+		4,4,0, 	255,100,0, 0,0,1,
+		4,0,0, 	255,100,0, 1,0,0,
+		4,4,-4,	 255,100,0, 1,0,0,
+		4,4,0, 	255,100,0, 1,0,0,
+		4,0,0, 	255,100,0, 1,0,0,
+		4,0,-4,	 255,100,0, 1,0,0,
+		4,4,-4,	 255,100,0, 1,0,0,
+		0,0,-4,	 255,100,0, 0,0,-1,
+		4,4,-4,	 255,100,0, 0,0,-1,
+		4,0,-4,	 255,100,0, 0,0,-1,
+		0,0,-4,	 255,100,0, 0,0,-1,
+		0,4,-4,	 255,100,0, 0,0,-1,
+		4,4,-4,	 255,100,0, 0,0,-1,
+		0,0,0, 	255,100,0, -1,0,0,
+		0,4,-4,	 255,100,0, -1,0,0,
+		0,0,-4,	 255,100,0, -1,0,0,
+		0,0,0, 	255,100,0, -1,0,0,
+		0,4,0, 	255,100,0,  -1,0,0,
+		0,4,-4,	 255,100,0, -1,0,0,
+		4,4,0, 	255,100,0,   0,1,0,
+		4,4,-4,	 255,100,0,  0,1,0,
+		0,4,-4,	 255,100,0,  0,1,0,
+		4,4,0, 	255,100,0,   0,1,0,
+		0,4,-4,	 255,100,0,  0,1,0,
+		0,4,0,	255,100,0,   0,1,0,
+		0,0,-4, 255,100,0,   0,-1,0,// 4,0,0, 	
+		4,0,-4,	 255,100,0,  0,-1,0,// 4,0,-4,	
+		4,0,0,	 255,100,0,  0,-1,0,// 0,0,-4,	
+		0,0,0, 	255,100,0,   0,-1,0,// 4,0,0, 	
+		0,0,-4,	 255,100,0,  0,-1,0,// 0,0,-4,	
+		4,0,0,	255,100,0,   0,-1,0//	 0,0,0,	
 
 	};
 
@@ -301,7 +301,7 @@ int main(void)
 	//Model = glm::rotate(Model, 0.5236f, vec3(0, 1, 0));
 
 	//this helps translate the light source
-	mat4 Model2 = translate(Model, vec3(0.0f, 2.0f, 4.0f));
+	mat4 Model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
 
 	vec3 lightPos = vec3(-6.5, -10, -1);
 	string vertexSource = ParseShader("vertex.shader");
@@ -339,7 +339,7 @@ int main(void)
 		processInput(window);
 
 		
-		//glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
 
 		View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -347,19 +347,19 @@ int main(void)
 		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//float distance = -0.1;
+		mat4 mvp = Projection * View * Model;
+		mat4 mvpLight = Projection * View * Model * Model2;
+		mat4 mv = View * Model;
+		
 		glUseProgram(program);
 		
-
-		mat4 mvp = Projection * View * Model;
-		Model2 = Projection * View * Model2;
-		mat4 mv = View * Model;
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
 		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
 		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));
 		// where worldSpace = glGetUniformLocation(program, "Model");
 		
-		//glUniformMatrix4fv(glGetUniformLocation(program, "Model2"), 1, GL_FALSE, value_ptr(Model2));
+		
 
 		glBindVertexArray(VAO);
 
@@ -370,15 +370,15 @@ int main(void)
 
 		glUseProgram(lightProgram);
 
-		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvp"), 1, GL_FALSE, value_ptr(mvp));
+		//glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
-		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "Model2"), 1, GL_FALSE, value_ptr(Model2));
+		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvpLight"), 1, GL_FALSE, value_ptr(mvpLight));
 
 		glBindVertexArray(lightVAO);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+		
 		//Swap front and back buffers 
-
 		glfwSwapBuffers(window);
 		// Poll for and process events 
 		glfwPollEvents();
