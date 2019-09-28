@@ -1,4 +1,8 @@
+#define STB_IMAGE_IMPLEMENTATION
+
 #include <GL/glew.h>
+//#include <glad/glad.h>
+#include <stb_image.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
@@ -8,7 +12,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <assimp/Exporter.hpp>
+#include <filesystem>
+
+
+
 
 using namespace std;
 using namespace glm;
@@ -173,47 +180,47 @@ int main(void)
 	glDepthFunc(GL_LESS);*/
 	
 	float coordinates[] = {
-		0,0,0,  255,100,0, 0,0,1,
-		4,4,0, 	255,100,0, 0,0,1,
-		0,4,0, 	255,100,0, 0,0,1,
-		0,0,0, 	255,100,0, 0,0,1,
-		4,0,0, 	255,100,0, 0,0,1,
-		4,4,0, 	255,100,0, 0,0,1,
-		4,0,0, 	255,100,0, 1,0,0,
-		4,4,-4,	 255,100,0, 1,0,0,
-		4,4,0, 	255,100,0, 1,0,0,
-		4,0,0, 	255,100,0, 1,0,0,
-		4,0,-4,	 255,100,0, 1,0,0,
-		4,4,-4,	 255,100,0, 1,0,0,
-		0,0,-4,	 255,100,0, 0,0,-1,
-		4,4,-4,	 255,100,0, 0,0,-1,
-		4,0,-4,	 255,100,0, 0,0,-1,
-		0,0,-4,	 255,100,0, 0,0,-1,
-		0,4,-4,	 255,100,0, 0,0,-1,
-		4,4,-4,	 255,100,0, 0,0,-1,
-		0,0,0, 	255,100,0, -1,0,0,
-		0,4,-4,	 255,100,0, -1,0,0,
-		0,0,-4,	 255,100,0, -1,0,0,
-		0,0,0, 	255,100,0, -1,0,0,
-		0,4,0, 	255,100,0,  -1,0,0,
-		0,4,-4,	 255,100,0, -1,0,0,
-		4,4,0, 	255,100,0,   0,1,0,
-		4,4,-4,	 255,100,0,  0,1,0,
-		0,4,-4,	 255,100,0,  0,1,0,
-		4,4,0, 	255,100,0,   0,1,0,
-		0,4,-4,	 255,100,0,  0,1,0,
-		0,4,0,	255,100,0,   0,1,0,
-		0,0,-4, 255,100,0,   0,-1,0,// 4,0,0, 	
-		4,0,-4,	 255,100,0,  0,-1,0,// 4,0,-4,	
-		4,0,0,	 255,100,0,  0,-1,0,// 0,0,-4,	
-		0,0,0, 	255,100,0,   0,-1,0,// 4,0,0, 	
-		0,0,-4,	 255,100,0,  0,-1,0,// 0,0,-4,	
-		4,0,0,	255,100,0,   0,-1,0//	 0,0,0,	
+		0,0,0,  255,100,0, 0,0,1, 0,0,
+		4,4,0, 	255,100,0, 0,0,1, 1,1,
+		0,4,0, 	255,100,0, 0,0,1, 0,1,
+		0,0,0, 	255,100,0, 0,0,1, 0,0,
+		4,0,0, 	255,100,0, 0,0,1, 1,0,
+		4,4,0, 	255,100,0, 0,0,1, 1,1, 
+		4,0,0, 	255,100,0, 1,0,0, 0,0,
+		4,4,-4,	 255,100,0, 1,0,0, 0,0,
+		4,4,0, 	255,100,0, 1,0,0, 0,0,
+		4,0,0, 	255,100,0, 1,0,0, 0,0,
+		4,0,-4,	 255,100,0, 1,0,0, 0,0,
+		4,4,-4,	 255,100,0, 1,0,0, 0,0,
+		0,0,-4,	 255,100,0, 0,0,-1, 0,0,
+		4,4,-4,	 255,100,0, 0,0,-1, 0,0,
+		4,0,-4,	 255,100,0, 0,0,-1, 0,0,
+		0,0,-4,	 255,100,0, 0,0,-1, 0,0,
+		0,4,-4,	 255,100,0, 0,0,-1, 0,0,
+		4,4,-4,	 255,100,0, 0,0,-1, 0,0,
+		0,0,0, 	255,100,0, -1,0,0, 0,0,
+		0,4,-4,	 255,100,0, -1,0,0, 0,0,
+		0,0,-4,	 255,100,0, -1,0,0, 0,0,
+		0,0,0, 	255,100,0, -1,0,0, 0,0,
+		0,4,0, 	255,100,0,  -1,0,0, 0,0,
+		0,4,-4,	 255,100,0, -1,0,0, 0,0,
+		4,4,0, 	255,100,0,   0,1,0, 0,0,
+		4,4,-4,	 255,100,0,  0,1,0, 0,0,
+		0,4,-4,	 255,100,0,  0,1,0, 0,0,
+		4,4,0, 	255,100,0,   0,1,0, 0,0,
+		0,4,-4,	 255,100,0,  0,1,0, 0,0,
+		0,4,0,	255,100,0,   0,1,0, 0,0,
+		0,0,-4, 255,100,0,   0,-1,0, 0,0,
+		4,0,-4,	 255,100,0,  0,-1,0, 0,0,
+		4,0,0,	 255,100,0,  0,-1,0, 0,0,
+		0,0,0, 	255,100,0,   0,-1,0, 0,0,
+		0,0,-4,	 255,100,0,  0,-1,0, 0,0,
+		4,0,0,	255,100,0,   0,-1,0, 0,0
 
 	};
 
 	float lightCoordinates[] = {
-		7,0,0,  255,255,255, 0,0,1,
+		7,0,0,  255,255,255, 0,0,1, 
 		7,1,0,  255,255,255, 0,0,1,
 		6,1,0,  255,255,255, 0,0,1,
 		7,0,0,  255,255,255, 0,0,1,
@@ -260,15 +267,18 @@ int main(void)
 	glBindVertexArray(VAO);
 
 	//our stride is 6 to accomodate for both the coordinates and colors of the cube
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
+	glVertexAttribPointer(3, 2, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(9 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+	
 	//for the light source
 	unsigned int lightVAO;
 	glGenVertexArrays(1, &lightVAO);
@@ -283,6 +293,38 @@ int main(void)
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
+
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);
+
+	//Texture buffers and binding
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width = 0, height = 0, nrChannels = 0;
+	unsigned char* data = stbi_load("Dependencies/Misc/container.png", &width, &height, &nrChannels, 0);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		cout << "Failed to load texture" << endl;
+	}
+
+
+	stbi_image_free(data);
 
 	/*glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);*/
@@ -366,7 +408,7 @@ int main(void)
 		// where worldSpace = glGetUniformLocation(program, "Model");
 		
 		
-
+		glBindTexture(GL_TEXTURE_2D, texture);
 		glBindVertexArray(VAO);
 
 		//sum of faces * 3

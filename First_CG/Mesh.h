@@ -2,7 +2,8 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <glad.h> // holds all OpenGL type declarations
+
+#include <GL/glew.h> // holds all OpenGL type declarations
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -35,7 +36,7 @@ public:
 	vector<unsigned int> indices;
 	vector<Texture> textures;
 	/*  Functions  */
-	
+
 	Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
 		this->vertices = vertices;
 		this->indices = indices;
@@ -44,7 +45,29 @@ public:
 		setupMesh();
 	};
 
-	void Draw(Shader shader);
+	//Here we count the number of texture slots needed for the shaders
+	void Draw(Shader shader) {
+		unsigned int diffuseNr = 1;
+		unsigned int specularNr = 1;
+		for (unsigned int i = 0; i < textures.size(); i++) {
+			glActiveTexture(GL_TEXTURE0 + i);
+			string number;
+			string name = textures[i].type;
+			if (name == "texture_diffuse")
+				number = to_string(diffuseNr++);
+			else if (name == "texture_specular")
+				number = std::to_string(specularNr++);
+
+			shader.setFloat(("material." + name + number).c_str(), i);
+			glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		}
+		glActiveTexture(GL_TEXTURE0);
+
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	
+	};
 
 private:
 	/*  Render data  */
