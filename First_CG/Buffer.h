@@ -25,6 +25,8 @@ public:
     
     //mode for data input is currently fixed
 	void provideBufferData(float* coordinates, int size, GLint Mode); 
+
+	unsigned int getBuffer();
     
 };
 

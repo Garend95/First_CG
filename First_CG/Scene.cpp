@@ -16,7 +16,7 @@
 #include "Texture.h"
 #include "Buffer.h"
 #include "VertexArray.h"
-
+#include "Mesh2.h"
 
 using namespace std;
 using namespace glm;
@@ -299,11 +299,12 @@ int main(void)
 		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
 	};
 
-	Buffer cube;
+	/*Buffer cube;
 	cube.setSize(1);
 	cube.generateBuffers(1);
 	cube.bindBuffer(0);
-	cube.provideBufferData(coordinates, sizeof(coordinates),GL_STATIC_DRAW);
+	cube.provideBufferData(coordinates, sizeof(coordinates),GL_STATIC_DRAW);*/
+	Mesh2 foo(coordinates, sizeof(coordinates));
 
 	//unsigned int vao;
 	unsigned int buffer[1], vao; //buffer for coordinates
@@ -311,11 +312,11 @@ int main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);*/
 	
-	VertexArray m;
+	/*VertexArray m;
 	m.setVASize(1);
 	m.generateVAO(1, 0);
 	m.bindVAO(0);
-	m.assignPointers3D(true, true, false);
+	m.assignPointers3D(true, true, false);*/
 
 	/*glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -418,7 +419,7 @@ int main(void)
 		processInput(window);
 
 		
-		//glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -441,7 +442,9 @@ int main(void)
 		 
 		//container.bindTexture2D();
 		//glBindVertexArray(vao);
-		m.bindVAO(0);
+		//VertexArray v = foo.getVAO();
+		//(foo.getVAO()).bindVAO(0); // here, it appears that I am activating a method of a class upon something taht is not a class as it clearly returns unsigned int 
+		foo.getVAO()->bindVAO(0);
 
 		//sum of faces * 3
 		glDrawArrays(GL_TRIANGLES, 0, 36);

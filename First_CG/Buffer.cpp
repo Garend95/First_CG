@@ -25,3 +25,7 @@ void Buffer::bindBuffer(int index) {
 void Buffer::provideBufferData(float* coordinates, int size, GLint Mode) {
 	glBufferData(GL_ARRAY_BUFFER, size, coordinates, Mode);
 }
+
+unsigned int Buffer::getBuffer() {
+	return *buffer;
+}

@@ -8,8 +8,7 @@ VertexArray::VertexArray() {
 }
 
 void VertexArray::setVASize(int arraySize) {
-	int x = arraySize;
-	this->VAO = new unsigned int[x];
+	this->VAO = new unsigned int[arraySize];
 }
 
 void VertexArray::generateVAO(int numOfArrays, int index) {
@@ -49,5 +48,9 @@ void VertexArray::assignPointers3D(bool colorsEnabled, bool NormalsEnabled, bool
 		glVertexAttribPointer(3, 3, GL_FLOAT, GL_TRUE, sizeof(float) * offset, (GLvoid*)((vertexSize + colorSize + normalSize) * sizeof(float)));
 		glEnableVertexAttribArray(3);
 	}
+}
+
+VertexArray* VertexArray::get() {
+	return this;
 }
 

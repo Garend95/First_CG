@@ -27,6 +27,8 @@ public:
 
 	void assignPointers3D(bool colorsEnabled, bool NormalsEnabled, bool texturesEnabled);
     
+	VertexArray* get();
+
 	int sumOfDimensions();
 };
 
