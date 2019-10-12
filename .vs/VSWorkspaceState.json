@@ -1,8 +1,9 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Dependencies\\Misc",
     "\\First_CG"
   ],
-  "SelectedNode": "\\First_CG\\Scene.cpp",
+  "SelectedNode": "\\First_CG.sln",
   "PreviewInSolutionExplorer": false
 }

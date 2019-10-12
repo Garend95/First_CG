@@ -1,8 +1,8 @@
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 
 #include <GL/glew.h>
 //#include <glad/glad.h>
-#include <stb_image.h>
+//#include "stb_image.h"
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <fstream>
@@ -13,8 +13,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <filesystem>
-
-
+#include "Texture.h"
+#include "Buffer.h"
+#include "VertexArray.h"
 
 
 using namespace std;
@@ -148,78 +149,118 @@ int main(void)
 {
 	GLFWwindow* window;
 
-	/* Initialize the library */
+	/* initialize the library */
 	if (!glfwInit())
+	{
 		return -1;
-
-	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(1280, 800, "Hello World", NULL, NULL);
+	};
+	
+	/* create a windowed mode window and its opengl context */
+	window = glfwCreateWindow(1280, 800, "hello world", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
 		return -1;
 	}
 	glfwSwapInterval(1);
-	/* Make the window's context current */
+	/* make the window's context current */
 	glfwMakeContextCurrent(window);
 
-	// call glewInit after creating the context...
+	// call glewinit after creating the context...
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 	{
-		/* Problem: glewInit failed, something is seriously wrong. */
-		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
+		/* problem: glewinit failed, something is seriously wrong. */
+		fprintf(stderr, "error: %s\n", glewGetErrorString(err));
 	}
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 
-	/*glClearDepth(-1);
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);*/
+	/*glcleardepth(-1);
+	glenable(gl_depth_test);
+	gldepthfunc(gl_less);*/
 	
 	float coordinates[] = {
-		0,0,0,  255,100,0, 0,0,1, 0,0,
-		4,4,0, 	255,100,0, 0,0,1, 1,1,
-		0,4,0, 	255,100,0, 0,0,1, 0,1,
-		0,0,0, 	255,100,0, 0,0,1, 0,0,
-		4,0,0, 	255,100,0, 0,0,1, 1,0,
-		4,4,0, 	255,100,0, 0,0,1, 1,1, 
-		4,0,0, 	255,100,0, 1,0,0, 0,0,
-		4,4,-4,	 255,100,0, 1,0,0, 0,0,
-		4,4,0, 	255,100,0, 1,0,0, 0,0,
-		4,0,0, 	255,100,0, 1,0,0, 0,0,
-		4,0,-4,	 255,100,0, 1,0,0, 0,0,
-		4,4,-4,	 255,100,0, 1,0,0, 0,0,
-		0,0,-4,	 255,100,0, 0,0,-1, 0,0,
-		4,4,-4,	 255,100,0, 0,0,-1, 0,0,
-		4,0,-4,	 255,100,0, 0,0,-1, 0,0,
-		0,0,-4,	 255,100,0, 0,0,-1, 0,0,
-		0,4,-4,	 255,100,0, 0,0,-1, 0,0,
-		4,4,-4,	 255,100,0, 0,0,-1, 0,0,
-		0,0,0, 	255,100,0, -1,0,0, 0,0,
-		0,4,-4,	 255,100,0, -1,0,0, 0,0,
-		0,0,-4,	 255,100,0, -1,0,0, 0,0,
-		0,0,0, 	255,100,0, -1,0,0, 0,0,
-		0,4,0, 	255,100,0,  -1,0,0, 0,0,
-		0,4,-4,	 255,100,0, -1,0,0, 0,0,
-		4,4,0, 	255,100,0,   0,1,0, 0,0,
-		4,4,-4,	 255,100,0,  0,1,0, 0,0,
-		0,4,-4,	 255,100,0,  0,1,0, 0,0,
-		4,4,0, 	255,100,0,   0,1,0, 0,0,
-		0,4,-4,	 255,100,0,  0,1,0, 0,0,
-		0,4,0,	255,100,0,   0,1,0, 0,0,
-		0,0,-4, 255,100,0,   0,-1,0, 0,0,
-		4,0,-4,	 255,100,0,  0,-1,0, 0,0,
-		4,0,0,	 255,100,0,  0,-1,0, 0,0,
-		0,0,0, 	255,100,0,   0,-1,0, 0,0,
-		0,0,-4,	 255,100,0,  0,-1,0, 0,0,
-		4,0,0,	255,100,0,   0,-1,0, 0,0
+		0,0,0,  255,100,0, 0,0,1,    
+		4,4,0, 	255,100,0, 0,0,1,    
+		0,4,0, 	255,100,0, 0,0,1,    
+		0,0,0, 	255,100,0, 0,0,1,    
+		4,0,0, 	255,100,0, 0,0,1,    
+		4,4,0, 	255,100,0, 0,0,1,    
+		4,0,0, 	255,100,0, 1,0,0,    
+		4,4,-4,	 255,100,0, 1,0,0,   
+		4,4,0, 	255,100,0, 1,0,0,    
+		4,0,0, 	255,100,0, 1,0,0,    
+		4,0,-4,	 255,100,0, 1,0,0,   
+		4,4,-4,	 255,100,0, 1,0,0,   
+		0,0,-4,	 255,100,0, 0,0,-1,  
+		4,4,-4,	 255,100,0, 0,0,-1,  
+		4,0,-4,	 255,100,0, 0,0,-1,  
+		0,0,-4,	 255,100,0, 0,0,-1,  
+		0,4,-4,	 255,100,0, 0,0,-1,  
+		4,4,-4,	 255,100,0, 0,0,-1,  
+		0,0,0, 	255,100,0, -1,0,0,   
+		0,4,-4,	 255,100,0, -1,0,0,  
+		0,0,-4,	 255,100,0, -1,0,0,  
+		0,0,0, 	255,100,0, -1,0,0,   
+		0,4,0, 	255,100,0,  -1,0,0,  
+		0,4,-4,	 255,100,0, -1,0,0,  
+		4,4,0, 	255,100,0,   0,1,0,  
+		4,4,-4,	 255,100,0,  0,1,0,  
+		0,4,-4,	 255,100,0,  0,1,0,  
+		4,4,0, 	255,100,0,   0,1,0,  
+		0,4,-4,	 255,100,0,  0,1,0,  
+		0,4,0,	255,100,0,   0,1,0,  
+		0,0,-4, 255,100,0,   0,-1,0, 
+		4,0,-4,	 255,100,0,  0,-1,0, 
+		4,0,0,	 255,100,0,  0,-1,0, 
+		0,0,0, 	255,100,0,   0,-1,0, 
+		0,0,-4,	 255,100,0,  0,-1,0, 
+		4,0,0,	255,100,0,   0,-1,0
 
 	};
 
-	float lightCoordinates[] = {
+
+	/*0, 0,
+		1, 1,
+		0, 1,
+		0, 0,
+		1, 0,
+		1, 1,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0,
+		0, 0*/
+
+	float lightcoordinates[] = {
 		7,0,0,  255,255,255, 0,0,1, 
 		7,1,0,  255,255,255, 0,0,1,
 		6,1,0,  255,255,255, 0,0,1,
@@ -258,35 +299,48 @@ int main(void)
 		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
 	};
 
-	unsigned int buffer[2], VAO; //buffer for coordinates
-	glGenBuffers(1, buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);
+	Buffer cube;
+	cube.setSize(1);
+	cube.generateBuffers(1);
+	cube.bindBuffer(0);
+	cube.provideBufferData(coordinates, sizeof(coordinates),GL_STATIC_DRAW);
 
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	//unsigned int vao;
+	unsigned int buffer[1], vao; //buffer for coordinates
+	/*glGenBuffers(1, buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);*/
+	
+	VertexArray m;
+	m.setVASize(1);
+	m.generateVAO(1, 0);
+	m.bindVAO(0);
+	m.assignPointers3D(true, true, false);
+
+	/*glGenVertexArrays(1, &vao);
+	glBindVertexArray(vao);
 
 	//our stride is 6 to accomodate for both the coordinates and colors of the cube
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(3 * sizeof(float)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
+	glEnableVertexAttribArray(2);*/
 
-	glVertexAttribPointer(3, 2, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(9 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	/*glVertexAttribPointer(3, 2, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(9 * sizeof(float)));
+	glEnableVertexAttribArray(3);*/
 	
 	//for the light source
-	unsigned int lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
+	unsigned int lightvao;
+	glGenVertexArrays(1, &lightvao);
+	glBindVertexArray(lightvao);
 
-	//do I need to bind the second buffer at all? Can I make do by the first one only??
+	//do i need to bind the second buffer at all? can i make do by the first one only??
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(lightCoordinates), lightCoordinates, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(lightcoordinates), lightcoordinates, GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -297,89 +351,66 @@ int main(void)
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	//Texture buffers and binding
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	Texture container;
+	container.generateAndBindTexture2D(GL_REPEAT);
+	container.loadTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png");
+	container.freeImage();
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	
+	/*glvertexattribpointer(2, 3, gl_float, gl_true, sizeof(float) * 9, (glvoid*)(6 * sizeof(float)));
+	glenablevertexattribarray(2);*/
 
-	int width = 0, height = 0, nrChannels = 0;
-	unsigned char* data = stbi_load("Dependencies/Misc/container.png", &width, &height, &nrChannels, 0);
+	/*unsigned int lightvao;
+	glgenvertexarrays(1, &lightvao);
+	glbindvertexarray(lightvao);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-	glGenerateMipmap(GL_TEXTURE_2D);
+	glbindbuffer(gl_array_buffer, lightvao);
 
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		cout << "Failed to load texture" << endl;
-	}
+	glvertexattribpointer(1, 3, gl_float, gl_true, sizeof(float) * 3, (glvoid*)vertex_position_offset);
+	glenablevertexattribarray(1);*/
 
-
-	stbi_image_free(data);
-
-	/*glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);*/
-
-	/*unsigned int lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, lightVAO);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 3, (GLvoid*)vertex_position_offset);
-	glEnableVertexAttribArray(1);*/
-
-	mat4 Model = mat4(1.0f);
-	mat4 View = lookAt(vec3(0, 0, 8),
+	mat4 model = mat4(1.0f);
+	mat4 view = lookAt(vec3(0, 0, 8),
 		vec3(0, 0, -1), vec3(0, 1, 0));//center, lookat, up
 
-	mat4 Projection = perspective(radians(60.0f),
+	mat4 projection = perspective(radians(60.0f),
 		(float)4.0 / (float)3.0, 0.1f, 100.0f);
 
-	Model = translate(Model, vec3(0.0f, 0.0f, -1.0f));
-	//Model = glm::rotate(Model, 0.5236f, vec3(0, 1, 0));
+	model = translate(model, vec3(0.0f, 0.0f, -1.0f));
+	//model = glm::rotate(model, 0.5236f, vec3(0, 1, 0));
 
 	//this helps translate the light source
-	mat4 Model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
+	mat4 model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
 
-	vec3 lightPos = vec3(-6.5, -10, -1);
-	string vertexSource = ParseShader("vertex.shader");
-	string fragmentSource = ParseShader("fragment.shader");
+	vec3 lightpos = vec3(-6.5, -10, -1);
+	string vertexsource = ParseShader("vertex.shader");
+	string fragmentsource = ParseShader("fragment.shader");
 
-	unsigned int program = CreateShader(vertexSource, fragmentSource);
+	unsigned int program = CreateShader(vertexsource, fragmentsource);
 
-	string lightVertSource = ParseShader("lightVertex.shader");
-	string lightFragSource = ParseShader("lightFragment.shader");
+	string lightvertsource = ParseShader("lightVertex.shader");
+	string lightfragsource = ParseShader("lightFragment.shader");
 
-	unsigned int lightProgram = CreateShader(lightVertSource, lightFragSource);
-	/*unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
-	glUniformMatrix4fv(viewProjSpace, 1, GL_FALSE, value_ptr(mvp));*/
+	unsigned int lightprogram = CreateShader(lightvertsource, lightfragsource);
+	/*unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
+	gluniformmatrix4fv(viewprojspace, 1, gl_false, value_ptr(mvp));*/
 
-	unsigned int worldSpace = glGetUniformLocation(program, "Model");
-		//glUseProgram(program);
+	unsigned int worldspace = glGetUniformLocation(program, "model");
+		//gluseprogram(program);
 
-		//unsigned int viewProjSpace = glGetUniformLocation(program, "mvp");
+		//unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
 
-	/* // Camera attributes for rotating around the 
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-	glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
+	/* // camera attributes for rotating around the 
+	glm::vec3 camerapos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameratarget = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 cameradirection = glm::normalize(camerapos - cameratarget);
 	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+	glm::vec3 cameraright = glm::normalize(glm::cross(up, cameradirection));
+	glm::vec3 cameraup = glm::cross(cameradirection, cameraright);
 	*/
 
 	float angle = 0;
-	/* Loop until the user closes the window */
+	/* loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		
@@ -387,48 +418,49 @@ int main(void)
 		processInput(window);
 
 		
-		glfwSetCursorPosCallback(window, mouse_callback);
+		//glfwSetCursorPosCallback(window, mouse_callback);
 
-		View = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
-		// Render here 
-		//glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		// render here 
+		//glclearcolor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//float distance = -0.1;
-		mat4 mvp = Projection * View * Model;
-		mat4 mvpLight = Projection * View * Model * Model2;
-		mat4 mv = View * Model;
+		mat4 mvp = projection * view * model;
+		mat4 mvplight = projection * view * model * model2;
+		mat4 mv = view * model;
 		
 		glUseProgram(program);
 		
 		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
-		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
-		glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
+		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
+		glUniformMatrix4fv(worldspace, 1, GL_FALSE, value_ptr(model));
 		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));
-		// where worldSpace = glGetUniformLocation(program, "Model");
+		// where worldspace = glgetuniformlocation(program, "model");
 		
-		
-		glBindTexture(GL_TEXTURE_2D, texture);
-		glBindVertexArray(VAO);
+		 
+		//container.bindTexture2D();
+		//glBindVertexArray(vao);
+		m.bindVAO(0);
 
 		//sum of faces * 3
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		
 
-		glUseProgram(lightProgram);
+		glUseProgram(lightprogram);
 
-		//glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvp"), 1, GL_FALSE, value_ptr(mvp));
-		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
-		glUniformMatrix4fv(glGetUniformLocation(lightProgram, "mvpLight"), 1, GL_FALSE, value_ptr(mvpLight));
+		//gluniformmatrix4fv(glgetuniformlocation(lightprogram, "mvp"), 1, gl_false, value_ptr(mvp));
+		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
+		glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
 
-		glBindVertexArray(lightVAO);
+		glBindVertexArray(lightvao);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
-		//Swap front and back buffers 
+		//swap front and back buffers 
 		glfwSwapBuffers(window);
-		// Poll for and process events 
+		// poll for and process events 
 		glfwPollEvents();
 	}
 

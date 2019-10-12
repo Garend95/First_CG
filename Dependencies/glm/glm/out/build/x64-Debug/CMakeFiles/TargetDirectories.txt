@@ -1,0 +1,2 @@
+C:/Users/Garen/source/repos/First_CG/Dependencies/glm/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Garen/source/repos/First_CG/Dependencies/glm/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
