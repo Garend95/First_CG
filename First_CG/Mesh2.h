@@ -1,6 +1,8 @@
 #include "Buffer.h"
 #include "VertexArray.h"
+#include <vector>
 
+using namespace std;
 #ifndef MESH2_H
 #define MESH2_H
 
@@ -9,32 +11,15 @@ class Mesh2{
         Buffer* buffer;
 		VertexArray* VAO;
 
-    public:// we cannot place a get method in a class to which the gotten data does not belong
-		VertexArray* getVAO() {
-			return (*VAO).get();
-		}
+    public:
+		
+		//creates and binds buffers, vertex arrays
+        Mesh2(vector<float> &coordinates);
 
-		/*
-		unsigned int* getVAO() {
-			return (*VAO).get();
-		}
-		*/
+		//returns the VAO for when we want to bind it
+		VertexArray* getVAO(); 
 
-        Mesh2(float coordinates[], int sizeOfCoordinates){
-			buffer = new Buffer();
-			VAO = new VertexArray();
-
-			(*buffer).setSize(1);
-			(*buffer).generateBuffers(1);
-			(*buffer).bindBuffer(0);
-			(*buffer).provideBufferData(coordinates, sizeOfCoordinates, GL_STATIC_DRAW);
-
-			(*VAO).setVASize(1);
-			(*VAO).generateVAO(1, 0);
-			(*VAO).bindVAO(0);
-			(*VAO).assignPointers3D(true, true, false);
-        };
-
+		void assignPointersInVAO(bool colorsEnabled, bool normalsEnabled, bool texturesEnabled);
 
 };
 

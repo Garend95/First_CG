@@ -1,4 +1,6 @@
-﻿  Scene.cpp
+﻿  Buffer.cpp
+  Mesh.cpp
+  Scene.cpp
+  Generating Code...
 C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(122,25): warning C4305:  'initializing': truncation from 'double' to 'float'
-C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(310,26): warning C4101:  'vao': unreferenced local variable
   First_CG.vcxproj -> C:\Users\Garen\source\repos\First_CG\Debug\First_CG.exe

@@ -1,5 +1,5 @@
 #include "Buffer.h"
-
+#include <vector>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
@@ -22,8 +22,8 @@ void Buffer::bindBuffer(int index) {
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[index]);
 }
 
-void Buffer::provideBufferData(float* coordinates, int size, GLint Mode) {
-	glBufferData(GL_ARRAY_BUFFER, size, coordinates, Mode);
+void Buffer::provideBufferData(vector<float> &coordinates, GLint Mode) {
+	glBufferData(GL_ARRAY_BUFFER, coordinates.size() * sizeof(float), &coordinates[0], Mode);
 }
 
 unsigned int Buffer::getBuffer() {

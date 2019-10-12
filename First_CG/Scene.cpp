@@ -182,7 +182,8 @@ int main(void)
 	glenable(gl_depth_test);
 	gldepthfunc(gl_less);*/
 	
-	float coordinates[] = {
+	
+	vector<float> coordinates = {
 		0,0,0,  255,100,0, 0,0,1,    
 		4,4,0, 	255,100,0, 0,0,1,    
 		0,4,0, 	255,100,0, 0,0,1,    
@@ -260,7 +261,7 @@ int main(void)
 		0, 0,
 		0, 0*/
 
-	float lightcoordinates[] = {
+	vector<float> lightcoordinates = {
 		7,0,0,  255,255,255, 0,0,1, 
 		7,1,0,  255,255,255, 0,0,1,
 		6,1,0,  255,255,255, 0,0,1,
@@ -304,10 +305,13 @@ int main(void)
 	cube.generateBuffers(1);
 	cube.bindBuffer(0);
 	cube.provideBufferData(coordinates, sizeof(coordinates),GL_STATIC_DRAW);*/
-	Mesh2 foo(coordinates, sizeof(coordinates));
+	Mesh2 Cube(coordinates);
 
+	Cube.assignPointersInVAO(true, true, false);
+	Mesh2 LightCube(lightcoordinates);
+	LightCube.assignPointersInVAO(true, true, false);
 	//unsigned int vao;
-	unsigned int buffer[1], vao; //buffer for coordinates
+	//unsigned int buffer[1], vao; //buffer for coordinates
 	/*glGenBuffers(1, buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);*/
@@ -335,7 +339,7 @@ int main(void)
 	glEnableVertexAttribArray(3);*/
 	
 	//for the light source
-	unsigned int lightvao;
+	/*unsigned int lightvao;
 	glGenVertexArrays(1, &lightvao);
 	glBindVertexArray(lightvao);
 
@@ -351,11 +355,12 @@ int main(void)
 
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
+	*/
 
-	Texture container;
+	/*Texture container;
 	container.generateAndBindTexture2D(GL_REPEAT);
 	container.loadTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png");
-	container.freeImage();
+	container.freeImage();*/
 
 	
 	/*glvertexattribpointer(2, 3, gl_float, gl_true, sizeof(float) * 9, (glvoid*)(6 * sizeof(float)));
@@ -397,19 +402,7 @@ int main(void)
 	gluniformmatrix4fv(viewprojspace, 1, gl_false, value_ptr(mvp));*/
 
 	unsigned int worldspace = glGetUniformLocation(program, "model");
-		//gluseprogram(program);
-
-		//unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
-
-	/* // camera attributes for rotating around the 
-	glm::vec3 camerapos = glm::vec3(0.0f, 0.0f, 3.0f);
-	glm::vec3 cameratarget = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 cameradirection = glm::normalize(camerapos - cameratarget);
-	glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
-	glm::vec3 cameraright = glm::normalize(glm::cross(up, cameradirection));
-	glm::vec3 cameraup = glm::cross(cameradirection, cameraright);
-	*/
-
+		
 	float angle = 0;
 	/* loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -419,7 +412,7 @@ int main(void)
 		processInput(window);
 
 		
-		glfwSetCursorPosCallback(window, mouse_callback);
+		//glfwSetCursorPosCallback(window, mouse_callback);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -444,7 +437,7 @@ int main(void)
 		//glBindVertexArray(vao);
 		//VertexArray v = foo.getVAO();
 		//(foo.getVAO()).bindVAO(0); // here, it appears that I am activating a method of a class upon something taht is not a class as it clearly returns unsigned int 
-		foo.getVAO()->bindVAO(0);
+		Cube.getVAO()->bindVAO(0);
 
 		//sum of faces * 3
 		glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -457,7 +450,8 @@ int main(void)
 		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
 		glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
 
-		glBindVertexArray(lightvao);
+		LightCube.getVAO()->bindVAO(0);
+		//glBindVertexArray(lightvao);
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
