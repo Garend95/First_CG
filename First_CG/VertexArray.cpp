@@ -45,7 +45,7 @@ void VertexArray::assignPointers3D(bool colorsEnabled, bool NormalsEnabled, bool
 	}
 
 	if (texturesEnabled) {
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_TRUE, sizeof(float) * offset, (GLvoid*)((vertexSize + colorSize + normalSize) * sizeof(float)));
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_TRUE, sizeof(float) * offset, (GLvoid*)((vertexSize + colorSize + normalSize) * sizeof(float)));
 		glEnableVertexAttribArray(3);
 	}
 }

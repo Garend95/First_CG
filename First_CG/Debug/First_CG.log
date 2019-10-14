@@ -1,6 +1,10 @@
-﻿  Buffer.cpp
-  Mesh.cpp
-  Scene.cpp
+﻿  Scene.cpp
+  Shader.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(123,25): warning C4305:  'initializing': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Shader.cpp(144,68): warning C4244:  'argument': conversion from 'float' to 'GLsizei', possible loss of data
   Generating Code...
-C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(122,25): warning C4305:  'initializing': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Shader.cpp(152,62): warning C4244:  'argument': conversion from 'float' to 'GLsizei', possible loss of data
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+glew32s.lib(glew.obj) : warning LNK4099: PDB 'vc120.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'C:\Users\Garen\source\repos\First_CG\Debug\vc120.pdb'; linking object as if no debug info
   First_CG.vcxproj -> C:\Users\Garen\source\repos\First_CG\Debug\First_CG.exe

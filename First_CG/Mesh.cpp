@@ -1,10 +1,11 @@
-#include "Mesh2.h"
+#include "Mesh.h"
 #include "VertexArray.h"
+#include "Texture.h"
 #include <vector>
 
 using namespace std;
 
-Mesh2::Mesh2(vector<float> &coordinates) {
+Mesh::Mesh(vector<float> &coordinates) {
 	buffer = new Buffer();
 	VAO = new VertexArray();
 
@@ -19,10 +20,23 @@ Mesh2::Mesh2(vector<float> &coordinates) {
 	
 }
 
-void Mesh2::assignPointersInVAO(bool colorsEnabled, bool normalsEnabled, bool texturesEnabled) {
+VertexArray* Mesh::getVAO() {
+	return (*VAO).get();
+}
+
+void Mesh::assignPointersInVAO(bool colorsEnabled, bool normalsEnabled, bool texturesEnabled) {
 	(*VAO).assignPointers3D(colorsEnabled, normalsEnabled, texturesEnabled);
 }
 
-VertexArray* Mesh2::getVAO() {
-	return (*VAO).get();
+void Mesh::createTexture(const string imagePath, GLint Mode) {
+	
+	tex = new Texture();
+	(*tex).generateAndBindTexture2D(Mode);
+	(*tex).loadTexture(imagePath);
+	(*tex).freeImage();
+	
+}
+
+void Mesh::bindTexture() {
+	(*tex).bindTexture2D();
 }

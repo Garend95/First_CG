@@ -13,10 +13,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <filesystem>
-#include "Texture.h"
+
 #include "Buffer.h"
 #include "VertexArray.h"
-#include "Mesh2.h"
+#include "Mesh.h"
+#include "Shader.h"
 
 using namespace std;
 using namespace glm;
@@ -184,82 +185,44 @@ int main(void)
 	
 	
 	vector<float> coordinates = {
-		0,0,0,  255,100,0, 0,0,1,    
-		4,4,0, 	255,100,0, 0,0,1,    
-		0,4,0, 	255,100,0, 0,0,1,    
-		0,0,0, 	255,100,0, 0,0,1,    
-		4,0,0, 	255,100,0, 0,0,1,    
-		4,4,0, 	255,100,0, 0,0,1,    
-		4,0,0, 	255,100,0, 1,0,0,    
-		4,4,-4,	 255,100,0, 1,0,0,   
-		4,4,0, 	255,100,0, 1,0,0,    
-		4,0,0, 	255,100,0, 1,0,0,    
-		4,0,-4,	 255,100,0, 1,0,0,   
-		4,4,-4,	 255,100,0, 1,0,0,   
-		0,0,-4,	 255,100,0, 0,0,-1,  
-		4,4,-4,	 255,100,0, 0,0,-1,  
-		4,0,-4,	 255,100,0, 0,0,-1,  
-		0,0,-4,	 255,100,0, 0,0,-1,  
-		0,4,-4,	 255,100,0, 0,0,-1,  
-		4,4,-4,	 255,100,0, 0,0,-1,  
-		0,0,0, 	255,100,0, -1,0,0,   
-		0,4,-4,	 255,100,0, -1,0,0,  
-		0,0,-4,	 255,100,0, -1,0,0,  
-		0,0,0, 	255,100,0, -1,0,0,   
-		0,4,0, 	255,100,0,  -1,0,0,  
-		0,4,-4,	 255,100,0, -1,0,0,  
-		4,4,0, 	255,100,0,   0,1,0,  
-		4,4,-4,	 255,100,0,  0,1,0,  
-		0,4,-4,	 255,100,0,  0,1,0,  
-		4,4,0, 	255,100,0,   0,1,0,  
-		0,4,-4,	 255,100,0,  0,1,0,  
-		0,4,0,	255,100,0,   0,1,0,  
-		0,0,-4, 255,100,0,   0,-1,0, 
-		4,0,-4,	 255,100,0,  0,-1,0, 
-		4,0,0,	 255,100,0,  0,-1,0, 
-		0,0,0, 	255,100,0,   0,-1,0, 
-		0,0,-4,	 255,100,0,  0,-1,0, 
-		4,0,0,	255,100,0,   0,-1,0
+		0,0,0,  255,100,0, 0,0,1,      0, 0,
+		4,4,0, 	255,100,0, 0,0,1,      1, 1,
+		0,4,0, 	255,100,0, 0,0,1,      0, 1,
+		0,0,0, 	255,100,0, 0,0,1,      0, 0,
+		4,0,0, 	255,100,0, 0,0,1,      1, 0,
+		4,4,0, 	255,100,0, 0,0,1,      1, 1,
+		4,0,0, 	255,100,0, 1,0,0,      0, 0,
+		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
+		4,4,0, 	255,100,0, 1,0,0,      0, 0,
+		4,0,0, 	255,100,0, 1,0,0,      0, 0,
+		4,0,-4,	 255,100,0, 1,0,0,     0, 0,
+		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
+		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+		4,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+		0,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+		0,0,0, 	255,100,0, -1,0,0,     0, 0,
+		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
+		0,0,-4,	 255,100,0, -1,0,0,    0, 0,
+		0,0,0, 	255,100,0, -1,0,0,     0, 0,
+		0,4,0, 	255,100,0,  -1,0,0,    0, 0,
+		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
+		4,4,0, 	255,100,0,   0,1,0,    0, 0,
+		4,4,-4,	 255,100,0,  0,1,0,    0, 0,
+		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
+		4,4,0, 	255,100,0,   0,1,0,    0, 0,
+		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
+		0,4,0,	255,100,0,   0,1,0,    0, 0,
+		0,0,-4, 255,100,0,   0,-1,0,   0, 0,
+		4,0,-4,	 255,100,0,  0,-1,0,   0, 0,
+		4,0,0,	 255,100,0,  0,-1,0,   0, 0,
+		0,0,0, 	255,100,0,   0,-1,0,   0, 0,
+		0,0,-4,	 255,100,0,  0,-1,0,   0, 0,
+		4,0,0,	255,100,0,   0,-1,0,   0, 0
 
 	};
-
-
-	/*0, 0,
-		1, 1,
-		0, 1,
-		0, 0,
-		1, 0,
-		1, 1,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0,
-		0, 0*/
 
 	vector<float> lightcoordinates = {
 		7,0,0,  255,255,255, 0,0,1, 
@@ -300,80 +263,13 @@ int main(void)
 		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
 	};
 
-	/*Buffer cube;
-	cube.setSize(1);
-	cube.generateBuffers(1);
-	cube.bindBuffer(0);
-	cube.provideBufferData(coordinates, sizeof(coordinates),GL_STATIC_DRAW);*/
-	Mesh2 Cube(coordinates);
+	Mesh Cube(coordinates);
+	Cube.assignPointersInVAO(true, true, true);
+	Cube.createTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png", GL_REPEAT);
 
-	Cube.assignPointersInVAO(true, true, false);
-	Mesh2 LightCube(lightcoordinates);
+	Mesh LightCube(lightcoordinates);
 	LightCube.assignPointersInVAO(true, true, false);
-	//unsigned int vao;
-	//unsigned int buffer[1], vao; //buffer for coordinates
-	/*glGenBuffers(1, buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[0]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(coordinates), coordinates, GL_STATIC_DRAW);*/
 	
-	/*VertexArray m;
-	m.setVASize(1);
-	m.generateVAO(1, 0);
-	m.bindVAO(0);
-	m.assignPointers3D(true, true, false);*/
-
-	/*glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
-
-	//our stride is 6 to accomodate for both the coordinates and colors of the cube
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);*/
-
-	/*glVertexAttribPointer(3, 2, GL_FLOAT, GL_TRUE, sizeof(float) * 11, (GLvoid*)(9 * sizeof(float)));
-	glEnableVertexAttribArray(3);*/
-	
-	//for the light source
-	/*unsigned int lightvao;
-	glGenVertexArrays(1, &lightvao);
-	glBindVertexArray(lightvao);
-
-	//do i need to bind the second buffer at all? can i make do by the first one only??
-	glBindBuffer(GL_ARRAY_BUFFER, buffer[1]);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(lightcoordinates), lightcoordinates, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
-
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, sizeof(float) * 9, (GLvoid*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
-	*/
-
-	/*Texture container;
-	container.generateAndBindTexture2D(GL_REPEAT);
-	container.loadTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png");
-	container.freeImage();*/
-
-	
-	/*glvertexattribpointer(2, 3, gl_float, gl_true, sizeof(float) * 9, (glvoid*)(6 * sizeof(float)));
-	glenablevertexattribarray(2);*/
-
-	/*unsigned int lightvao;
-	glgenvertexarrays(1, &lightvao);
-	glbindvertexarray(lightvao);
-
-	glbindbuffer(gl_array_buffer, lightvao);
-
-	glvertexattribpointer(1, 3, gl_float, gl_true, sizeof(float) * 3, (glvoid*)vertex_position_offset);
-	glenablevertexattribarray(1);*/
 
 	mat4 model = mat4(1.0f);
 	mat4 view = lookAt(vec3(0, 0, 8),
@@ -388,7 +284,16 @@ int main(void)
 	//this helps translate the light source
 	mat4 model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
 
-	vec3 lightpos = vec3(-6.5, -10, -1);
+	
+	
+	
+
+	Shader s("vertex.shader","fragment.shader");
+	Shader u("lightVertex.shader", "lightFragment.shader");
+
+	
+
+	/*vec3 lightpos = vec3(-6.5, -10, -1);
 	string vertexsource = ParseShader("vertex.shader");
 	string fragmentsource = ParseShader("fragment.shader");
 
@@ -397,11 +302,11 @@ int main(void)
 	string lightvertsource = ParseShader("lightVertex.shader");
 	string lightfragsource = ParseShader("lightFragment.shader");
 
-	unsigned int lightprogram = CreateShader(lightvertsource, lightfragsource);
+	unsigned int lightprogram = CreateShader(lightvertsource, lightfragsource);*/
 	/*unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
 	gluniformmatrix4fv(viewprojspace, 1, gl_false, value_ptr(mvp));*/
 
-	unsigned int worldspace = glGetUniformLocation(program, "model");
+	//unsigned int worldspace = glGetUniformLocation(program, "model");
 		
 	float angle = 0;
 	/* loop until the user closes the window */
@@ -412,7 +317,7 @@ int main(void)
 		processInput(window);
 
 		
-		//glfwSetCursorPosCallback(window, mouse_callback);
+		glfwSetCursorPosCallback(window, mouse_callback);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -424,15 +329,23 @@ int main(void)
 		mat4 mvplight = projection * view * model * model2;
 		mat4 mv = view * model;
 		
-		glUseProgram(program);
+		//glUseProgram(program);
+		s.use();
 		
-		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
-		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
+		/*glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		glUniformMatrix4fv(worldspace, 1, GL_FALSE, value_ptr(model));
-		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));
+		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));*/
+		
+		
+		s.setFloat("mvp", 1, mvp);
+		s.setFloat("model",1,model);
+		s.setFloat("viewPos", 1, cameraPos);
+
+		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
 		// where worldspace = glgetuniformlocation(program, "model");
 		
-		 
+		Cube.bindTexture();
+		//
 		//container.bindTexture2D();
 		//glBindVertexArray(vao);
 		//VertexArray v = foo.getVAO();
@@ -443,12 +356,13 @@ int main(void)
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		
-
-		glUseProgram(lightprogram);
+		u.use();
+		//glUseProgram(lightprogram);
 
 		//gluniformmatrix4fv(glgetuniformlocation(lightprogram, "mvp"), 1, gl_false, value_ptr(mvp));
 		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
-		glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
+		u.setFloat("mvplight",1,mvplight);
+		//glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
 
 		LightCube.getVAO()->bindVAO(0);
 		//glBindVertexArray(lightvao);
@@ -462,7 +376,7 @@ int main(void)
 	}
 
 
-	glDeleteProgram(program);
+	s.~Shader();
 
 	glfwTerminate();
 	return 0;

@@ -4,7 +4,7 @@ out vec4 FragColor;
 in vec3 FragPos;
 in vec3 var_color;
 in vec3 CubeNormal;
-//in vec2 TexCoord;
+in vec2 TexCoord;
 
 //in vec3 gl_position
 //uniform vec4 u_Color;
@@ -14,7 +14,7 @@ in vec3 CubeNormal;
 uniform vec3 viewPos;
 
 //sending in our texture
-//uniform sampler2D ourTexture;
+uniform sampler2D ourTexture;
 
 void main()
 {
@@ -37,6 +37,9 @@ void main()
 	vec3 specular = specularStrength * spec * vec3(1.0f, 0.0f, 1.0f);
 
 	/*texture(ourTexture, TexCoord)*/
-	vec3 result = (ambient + diffuse + specular) * var_color;
-	FragColor = vec4(result, 1.0);
+	//vec3 result = (ambient + diffuse + specular) * var_color;
+	//FragColor = vec4(result, 1.0);
+
+	vec4 result = vec4((ambient + diffuse + specular), 1) * texture(ourTexture, TexCoord) /** vec4(var_color, 1)*/;
+	FragColor = result;
 };
