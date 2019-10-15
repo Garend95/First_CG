@@ -70,7 +70,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath) {
     glDeleteShader(fragment);
 }
 
-Shader::~Shader() {
+void Shader::Delete() {
 	glDeleteProgram(ID);
 }
 
@@ -152,6 +152,10 @@ void Shader::setFloat(const std::string& name, float value, glm::vec3 vector) co
         glUniform3fv(glGetUniformLocation(ID, name.c_str()), value, value_ptr(vector));
    
     //glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+
+void Shader::setFloat(const std::string& name, float index) const {
+	glUniform1f(glGetUniformLocation(ID, name.c_str()), index);
 }
 /////PRIVATE
 

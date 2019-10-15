@@ -18,6 +18,7 @@
 #include "VertexArray.h"
 #include "Mesh.h"
 #include "Shader.h"
+#include "Window.h"
 
 using namespace std;
 using namespace glm;
@@ -55,7 +56,6 @@ static unsigned int CompileShader(unsigned int type, const string& source) {
 	return id;
 }
 
-// takes the shader codes as a string parameters 
 static unsigned int CreateShader(const string& vertexShader, const string& fragmentShader)
 {
 	GLuint program = glCreateProgram();
@@ -148,32 +148,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 int main(void)
 {
-	GLFWwindow* window;
-
-	/* initialize the library */
-	if (!glfwInit())
-	{
-		return -1;
-	};
 	
-	/* create a windowed mode window and its opengl context */
-	window = glfwCreateWindow(1280, 800, "hello world", NULL, NULL);
-	if (!window)
-	{
-		glfwTerminate();
-		return -1;
-	}
-	glfwSwapInterval(1);
-	/* make the window's context current */
-	glfwMakeContextCurrent(window);
-
-	// call glewinit after creating the context...
-	GLenum err = glewInit();
-	if (GLEW_OK != err)
-	{
-		/* problem: glewinit failed, something is seriously wrong. */
-		fprintf(stderr, "error: %s\n", glewGetErrorString(err));
-	}
+	Window window(1280, 800);
+	if (window.windowHasError()) return -1;
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -310,14 +287,14 @@ int main(void)
 		
 	float angle = 0;
 	/* loop until the user closes the window */
-	while (!glfwWindowShouldClose(window))
+	while (!window.windowShouldClose())
 	{
 		
 		
-		processInput(window);
+		//processInput(window);
 
 		
-		glfwSetCursorPosCallback(window, mouse_callback);
+		//glfwSetCursorPosCallback(window, mouse_callback);
 
 		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
@@ -369,14 +346,11 @@ int main(void)
 
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 		
-		//swap front and back buffers 
-		glfwSwapBuffers(window);
-		// poll for and process events 
-		glfwPollEvents();
+		window.swapAndPoll();
 	}
 
 
-	s.~Shader();
+	s.Delete();
 
 	glfwTerminate();
 	return 0;

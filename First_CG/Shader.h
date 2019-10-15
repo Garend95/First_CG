@@ -24,7 +24,7 @@ public:
 	// constructor reads and builds the shader
 	Shader(const char* vertexPath, const char* fragmentPath);
 
-	~Shader();
+	void Delete();
 
 	string ParseShader(string filepath);
 	
@@ -42,6 +42,8 @@ public:
 	void setFloat(const std::string& name, float value, glm::mat4 matrix) const;
 
 	void setFloat(const std::string& name, float value, glm::vec3 vector) const;
+
+	void setFloat(const std::string& name, float index) const;
 
 
 	// utility function for checking shader compilation/linking errors.
