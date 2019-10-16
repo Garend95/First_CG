@@ -18,10 +18,10 @@ class modelMesh {
         /*  Mesh Data  */
         vector<Vertex> vertices;
         vector<unsigned int> indices;
-    	vector<Texture> textures;
+    	vector<Textr> textures;
 	
         /*  Functions  */
-        modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures);
+        modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Textr> textures);
 
         void Draw(Shader shader);
     private:

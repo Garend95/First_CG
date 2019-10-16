@@ -6,6 +6,11 @@
 
 Window::Window(int width, int height) {
 
+	glfwInit();
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	/* initialize the library */
 	/*if (!glfwInit())
 	{
@@ -13,7 +18,7 @@ Window::Window(int width, int height) {
 	};*/
 
 	/* create a windowed mode window and its opengl context */
-	window = glfwCreateWindow(1280, 800, "hello world", NULL, NULL);
+	window = glfwCreateWindow(width, height, "hello world", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -33,11 +38,12 @@ Window::Window(int width, int height) {
 }
 
 bool Window::windowHasError() {
+	bool x = !glfwInit, y = !window;
 	return (!glfwInit || !window);
 }
 
 bool Window::windowShouldClose() {
-	return glfwWindowShouldClose;
+	return glfwWindowShouldClose(window);
 }
 
 void Window::swapAndPoll() {
@@ -45,4 +51,8 @@ void Window::swapAndPoll() {
 	glfwSwapBuffers(window);
 	// poll for and process events 
 	glfwPollEvents();
+}
+
+GLFWwindow* Window::getWindow() {
+	return window;
 }

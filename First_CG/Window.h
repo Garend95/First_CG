@@ -19,6 +19,8 @@ class Window {
 		bool windowShouldClose();
 
 		void swapAndPoll();
+
+		GLFWwindow* getWindow();
 };
 
 #endif

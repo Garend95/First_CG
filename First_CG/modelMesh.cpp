@@ -18,7 +18,7 @@
 #include <vector>
 
 
-modelMesh::modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures) {
+modelMesh::modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Textr> textures) {
     this->vertices = vertices;
     this->indices = indices;
     this->textures = textures;

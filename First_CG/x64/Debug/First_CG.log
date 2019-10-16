@@ -1,2 +1,21 @@
-﻿  Scene.cpp
-C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(1,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+﻿  Buffer.cpp
+  Extra.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Buffer.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Mesh.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Extra.cpp(3,10): error C1083:  Cannot open include file: 'glad/glad.h': No such file or directory
+  Model.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Buffer.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  modelMesh.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Model.h(7,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Scene.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Shader.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Shader.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(3,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Texture.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Shader.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  VertexArray.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\Texture.h(3,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Window.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\VertexArray.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory
+  Generating Code...
+C:\Users\Garen\source\repos\First_CG\First_CG\Window.h(4,10): error C1083:  Cannot open include file: 'GL/glew.h': No such file or directory

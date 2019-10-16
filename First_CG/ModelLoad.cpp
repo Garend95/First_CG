@@ -18,8 +18,8 @@
 #include <assimp/postprocess.h>
 
 #include "Shader.h"
-#include "Mesh.h"
-
+#include "Model.h"
+#include "modelMesh.h"
 
 using namespace std;
 using namespace glm;
@@ -149,14 +149,14 @@ int main(void)
 	glEnable(GL_DEPTH_TEST);
 	//glDepthFunc(GL_LESS);
 
-	const char* vs = "model_loadingVS.shader";
-	const char* fs = "model_loadingFS.shader";
-	Shader ourShader(vs, fs);
-	unsigned int program = ourShader.createShader(vs, fs);
+	//const char* vs = "model_loadingVS.shader";
+	//const char* fs = "model_loadingFS.shader";
+	Shader ourShader("C://OpenGL//model_loadingVS.shader", "C://OpenGL//model_loadingFS.shader");
+	//unsigned int program = ourShader.createShader(vs, fs);
 	
-	string path = "Dependencies/Misc/nanosuit.obj";
-	Model ourModel(path);
-	
+	//string path = "Dependencies/Misc/nanosuit.obj";
+	Model ourModel("C://OpenGL//Type_Writer.obj");
+	//"C://Users//Garen//source//repos//First_CG//Dependencies//Misc//nanosuit.obj"
 
 	mat4 Model = mat4(1.0f);
 	mat4 View = lookAt(vec3(0, 0, 8),
@@ -208,7 +208,8 @@ int main(void)
 		//glUseProgram(program);
 		ourShader.use();
 
-		glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
+		ourShader.setFloat("mvp", 1, mvp);
+		//glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
 		//glUniformMatrix4fv(glGetUniformLocation(program, "mv"), 1, GL_FALSE, value_ptr(mv));
 		//glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
 		// glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));

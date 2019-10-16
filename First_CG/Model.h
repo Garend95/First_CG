@@ -5,7 +5,7 @@
 
 
 #include <GL/glew.h> // holds all OpenGL type declarations
-#include <stb_image.h>
+#include "stb_image.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <assimp/Importer.hpp>
@@ -40,7 +40,7 @@ private:
 
 	modelMesh processMesh(aiMesh* mesh, const aiScene* scene);
 
-	vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	vector<Textr> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
 };
 
 unsigned int TextureFromFile(const char* path, const string& directory);

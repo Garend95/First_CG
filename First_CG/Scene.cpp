@@ -19,6 +19,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Window.h"
+#include "Global.h"
 
 using namespace std;
 using namespace glm;
@@ -73,7 +74,7 @@ static unsigned int CreateShader(const string& vertexShader, const string& fragm
 
 	return program;
 }
-
+/*
 vec3 cameraPos = vec3(0.0f, 0.0f, 8.0f);
 vec3 cameraFront = vec3(0.0f, 0.0f, -1.0f);
 vec3 cameraUp = vec3(0.0f, 1.0f, 0.0f);
@@ -141,217 +142,220 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	cameraFront = glm::normalize(front);
 }
+*/
 
 
 
-
-
-int main(void)
-{
-	
-	Window window(1280, 800);
-	if (window.windowHasError()) return -1;
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-
-	/*glcleardepth(-1);
-	glenable(gl_depth_test);
-	gldepthfunc(gl_less);*/
-	
-	
-	vector<float> coordinates = {
-		0,0,0,  255,100,0, 0,0,1,      0, 0,
-		4,4,0, 	255,100,0, 0,0,1,      1, 1,
-		0,4,0, 	255,100,0, 0,0,1,      0, 1,
-		0,0,0, 	255,100,0, 0,0,1,      0, 0,
-		4,0,0, 	255,100,0, 0,0,1,      1, 0,
-		4,4,0, 	255,100,0, 0,0,1,      1, 1,
-		4,0,0, 	255,100,0, 1,0,0,      0, 0,
-		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
-		4,4,0, 	255,100,0, 1,0,0,      0, 0,
-		4,0,0, 	255,100,0, 1,0,0,      0, 0,
-		4,0,-4,	 255,100,0, 1,0,0,     0, 0,
-		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
-		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
-		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
-		4,0,-4,	 255,100,0, 0,0,-1,    0, 0,
-		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
-		0,4,-4,	 255,100,0, 0,0,-1,    0, 0,
-		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
-		0,0,0, 	255,100,0, -1,0,0,     0, 0,
-		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
-		0,0,-4,	 255,100,0, -1,0,0,    0, 0,
-		0,0,0, 	255,100,0, -1,0,0,     0, 0,
-		0,4,0, 	255,100,0,  -1,0,0,    0, 0,
-		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
-		4,4,0, 	255,100,0,   0,1,0,    0, 0,
-		4,4,-4,	 255,100,0,  0,1,0,    0, 0,
-		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
-		4,4,0, 	255,100,0,   0,1,0,    0, 0,
-		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
-		0,4,0,	255,100,0,   0,1,0,    0, 0,
-		0,0,-4, 255,100,0,   0,-1,0,   0, 0,
-		4,0,-4,	 255,100,0,  0,-1,0,   0, 0,
-		4,0,0,	 255,100,0,  0,-1,0,   0, 0,
-		0,0,0, 	255,100,0,   0,-1,0,   0, 0,
-		0,0,-4,	 255,100,0,  0,-1,0,   0, 0,
-		4,0,0,	255,100,0,   0,-1,0,   0, 0
-
-	};
-
-	vector<float> lightcoordinates = {
-		7,0,0,  255,255,255, 0,0,1, 
-		7,1,0,  255,255,255, 0,0,1,
-		6,1,0,  255,255,255, 0,0,1,
-		7,0,0,  255,255,255, 0,0,1,
-		6,1,0,  255,255,255, 0,0,1,
-		6,0,0,  255,255,255, 0,0,1,
-		7,0,0,  255,255,255, 1,0,0,
-		7,1,-1,	255,255,255,  1,0,0,
-		7,1,0,	255,255,255, 1,0,0,
-		7,0,0,	255,255,255, 1,0,0,
-		7,0,-1,	255,255,255,  1,0,0,
-		7,1,-1,	255,255,255,  1,0,0,
-		6,0,-1, 255,255,255,  0,0,-1,
-		7,1,-1,	255,255,255,  0,0,-1,
-		7,0,-1,	255,255,255,  0,0,-1,
-		6,0,-1,	255,255,255,  0,0,-1,
-		6,1,-1,	255,255,255,  0,0,-1,
-		7,1,-1,	255,255,255,  0,0,-1,
-		6,0,0,  255,255,255, -1,0,0,
-		6,1,-1,	255,255,255,  -1,0,0,
-		6,0,-1,	255,255,255,  -1,0,0,
-		6,0,0,	255,255,255, -1,0,0,
-		6,1,0,	255,255,255,  -1,0,0,
-		6,1,-1,	255,255,255,  -1,0,0,
-		7,1,0,  255,255,255,   0,1,0,
-		7,1,-1,	255,255,255,   0,1,0,
-		6,1,-1,	255,255,255,   0,1,0,
-		7,1,0,	255,255,255,   0,1,0,
-		6,1,-1,	255,255,255,   0,1,0,
-		6,1,0,	255,255,255,   0,1,0,
-		6,0,-1,  255,255,255,   0,-1,0,// 7,0,0,
-		7,0,-1,	255,255,255,   0,-1,0,// 7,0,-1
-		7,0,0,	255,255,255,   0,-1,0,// 6,0,-1
-		6,0,0,	255,255,255,   0,-1,0,// 7,0,0,
-		6,0,-1,	255,255,255,   0,-1,0,// 6,0,-1
-		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
-	};
-
-	Mesh Cube(coordinates);
-	Cube.assignPointersInVAO(true, true, true);
-	Cube.createTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png", GL_REPEAT);
-
-	Mesh LightCube(lightcoordinates);
-	LightCube.assignPointersInVAO(true, true, false);
-	
-
-	mat4 model = mat4(1.0f);
-	mat4 view = lookAt(vec3(0, 0, 8),
-		vec3(0, 0, -1), vec3(0, 1, 0));//center, lookat, up
-
-	mat4 projection = perspective(radians(60.0f),
-		(float)4.0 / (float)3.0, 0.1f, 100.0f);
-
-	model = translate(model, vec3(0.0f, 0.0f, -1.0f));
-	//model = glm::rotate(model, 0.5236f, vec3(0, 1, 0));
-
-	//this helps translate the light source
-	mat4 model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
-
-	
-	
-	
-
-	Shader s("vertex.shader","fragment.shader");
-	Shader u("lightVertex.shader", "lightFragment.shader");
-
-	
-
-	/*vec3 lightpos = vec3(-6.5, -10, -1);
-	string vertexsource = ParseShader("vertex.shader");
-	string fragmentsource = ParseShader("fragment.shader");
-
-	unsigned int program = CreateShader(vertexsource, fragmentsource);
-
-	string lightvertsource = ParseShader("lightVertex.shader");
-	string lightfragsource = ParseShader("lightFragment.shader");
-
-	unsigned int lightprogram = CreateShader(lightvertsource, lightfragsource);*/
-	/*unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
-	gluniformmatrix4fv(viewprojspace, 1, gl_false, value_ptr(mvp));*/
-
-	//unsigned int worldspace = glGetUniformLocation(program, "model");
-		
-	float angle = 0;
-	/* loop until the user closes the window */
-	while (!window.windowShouldClose())
-	{
-		
-		
-		//processInput(window);
-
-		
-		//glfwSetCursorPosCallback(window, mouse_callback);
-
-		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-
-		// render here 
-		//glclearcolor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//float distance = -0.1;
-		mat4 mvp = projection * view * model;
-		mat4 mvplight = projection * view * model * model2;
-		mat4 mv = view * model;
-		
-		//glUseProgram(program);
-		s.use();
-		
-		/*glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
-		glUniformMatrix4fv(worldspace, 1, GL_FALSE, value_ptr(model));
-		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));*/
-		
-		
-		s.setFloat("mvp", 1, mvp);
-		s.setFloat("model",1,model);
-		s.setFloat("viewPos", 1, cameraPos);
-
-		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
-		// where worldspace = glgetuniformlocation(program, "model");
-		
-		Cube.bindTexture();
-		//
-		//container.bindTexture2D();
-		//glBindVertexArray(vao);
-		//VertexArray v = foo.getVAO();
-		//(foo.getVAO()).bindVAO(0); // here, it appears that I am activating a method of a class upon something taht is not a class as it clearly returns unsigned int 
-		Cube.getVAO()->bindVAO(0);
-
-		//sum of faces * 3
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		
-		u.use();
-		//glUseProgram(lightprogram);
-
-		//gluniformmatrix4fv(glgetuniformlocation(lightprogram, "mvp"), 1, gl_false, value_ptr(mvp));
-		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
-		u.setFloat("mvplight",1,mvplight);
-		//glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
-
-		LightCube.getVAO()->bindVAO(0);
-		//glBindVertexArray(lightvao);
-
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		
-		window.swapAndPoll();
-	}
-
-
-	s.Delete();
-
-	glfwTerminate();
-	return 0;
-}
+//
+//int main(void)
+//{
+//	
+//
+//	
+//
+//	Window window(1280, 800);
+//	if (window.windowHasError()) return -1;
+//
+//	glEnable(GL_CULL_FACE);
+//	glCullFace(GL_BACK);
+//	glFrontFace(GL_CCW);
+//
+//	/*glcleardepth(-1);
+//	glenable(gl_depth_test);
+//	gldepthfunc(gl_less);*/
+//	
+//	
+//	vector<float> coordinates = {
+//		0,0,0,  255,100,0, 0,0,1,      0, 0,
+//		4,4,0, 	255,100,0, 0,0,1,      1, 1,
+//		0,4,0, 	255,100,0, 0,0,1,      0, 1,
+//		0,0,0, 	255,100,0, 0,0,1,      0, 0,
+//		4,0,0, 	255,100,0, 0,0,1,      1, 0,
+//		4,4,0, 	255,100,0, 0,0,1,      1, 1,
+//		4,0,0, 	255,100,0, 1,0,0,      0, 0,
+//		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
+//		4,4,0, 	255,100,0, 1,0,0,      0, 0,
+//		4,0,0, 	255,100,0, 1,0,0,      0, 0,
+//		4,0,-4,	 255,100,0, 1,0,0,     0, 0,
+//		4,4,-4,	 255,100,0, 1,0,0,     0, 0,
+//		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		4,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		0,0,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		0,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		4,4,-4,	 255,100,0, 0,0,-1,    0, 0,
+//		0,0,0, 	255,100,0, -1,0,0,     0, 0,
+//		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
+//		0,0,-4,	 255,100,0, -1,0,0,    0, 0,
+//		0,0,0, 	255,100,0, -1,0,0,     0, 0,
+//		0,4,0, 	255,100,0,  -1,0,0,    0, 0,
+//		0,4,-4,	 255,100,0, -1,0,0,    0, 0,
+//		4,4,0, 	255,100,0,   0,1,0,    0, 0,
+//		4,4,-4,	 255,100,0,  0,1,0,    0, 0,
+//		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
+//		4,4,0, 	255,100,0,   0,1,0,    0, 0,
+//		0,4,-4,	 255,100,0,  0,1,0,    0, 0,
+//		0,4,0,	255,100,0,   0,1,0,    0, 0,
+//		0,0,-4, 255,100,0,   0,-1,0,   0, 0,
+//		4,0,-4,	 255,100,0,  0,-1,0,   0, 0,
+//		4,0,0,	 255,100,0,  0,-1,0,   0, 0,
+//		0,0,0, 	255,100,0,   0,-1,0,   0, 0,
+//		0,0,-4,	 255,100,0,  0,-1,0,   0, 0,
+//		4,0,0,	255,100,0,   0,-1,0,   0, 0
+//
+//	};
+//
+//	vector<float> lightcoordinates = {
+//		7,0,0,  255,255,255, 0,0,1, 
+//		7,1,0,  255,255,255, 0,0,1,
+//		6,1,0,  255,255,255, 0,0,1,
+//		7,0,0,  255,255,255, 0,0,1,
+//		6,1,0,  255,255,255, 0,0,1,
+//		6,0,0,  255,255,255, 0,0,1,
+//		7,0,0,  255,255,255, 1,0,0,
+//		7,1,-1,	255,255,255,  1,0,0,
+//		7,1,0,	255,255,255, 1,0,0,
+//		7,0,0,	255,255,255, 1,0,0,
+//		7,0,-1,	255,255,255,  1,0,0,
+//		7,1,-1,	255,255,255,  1,0,0,
+//		6,0,-1, 255,255,255,  0,0,-1,
+//		7,1,-1,	255,255,255,  0,0,-1,
+//		7,0,-1,	255,255,255,  0,0,-1,
+//		6,0,-1,	255,255,255,  0,0,-1,
+//		6,1,-1,	255,255,255,  0,0,-1,
+//		7,1,-1,	255,255,255,  0,0,-1,
+//		6,0,0,  255,255,255, -1,0,0,
+//		6,1,-1,	255,255,255,  -1,0,0,
+//		6,0,-1,	255,255,255,  -1,0,0,
+//		6,0,0,	255,255,255, -1,0,0,
+//		6,1,0,	255,255,255,  -1,0,0,
+//		6,1,-1,	255,255,255,  -1,0,0,
+//		7,1,0,  255,255,255,   0,1,0,
+//		7,1,-1,	255,255,255,   0,1,0,
+//		6,1,-1,	255,255,255,   0,1,0,
+//		7,1,0,	255,255,255,   0,1,0,
+//		6,1,-1,	255,255,255,   0,1,0,
+//		6,1,0,	255,255,255,   0,1,0,
+//		6,0,-1,  255,255,255,   0,-1,0,// 7,0,0,
+//		7,0,-1,	255,255,255,   0,-1,0,// 7,0,-1
+//		7,0,0,	255,255,255,   0,-1,0,// 6,0,-1
+//		6,0,0,	255,255,255,   0,-1,0,// 7,0,0,
+//		6,0,-1,	255,255,255,   0,-1,0,// 6,0,-1
+//		7,0,0,	255,255,255,   0,-1,0//	 6,0,0,
+//	};
+//
+//	Mesh Cube(coordinates);
+//	Cube.assignPointersInVAO(true, true, true);
+//	Cube.createTexture("C://Users//Garen//source//repos//First_CG//Dependencies//Misc//container.png", GL_REPEAT);
+//
+//	Mesh LightCube(lightcoordinates);
+//	LightCube.assignPointersInVAO(true, true, false);
+//	
+//
+//	mat4 model = mat4(1.0f);
+//	mat4 view = lookAt(vec3(0, 0, 8),
+//		vec3(0, 0, -1), vec3(0, 1, 0));//center, lookat, up
+//
+//	mat4 projection = perspective(radians(60.0f),
+//		(float)4.0 / (float)3.0, 0.1f, 100.0f);
+//
+//	model = translate(model, vec3(0.0f, 0.0f, -1.0f));
+//	//model = glm::rotate(model, 0.5236f, vec3(0, 1, 0));
+//
+//	//this helps translate the light source
+//	mat4 model2 = translate(mat4(1.0f), vec3(10.0f, 4.0f, -1.0f));
+//
+//	
+//	
+//	
+//
+//	Shader s("vertex.shader","fragment.shader");
+//	Shader u("lightVertex.shader", "lightFragment.shader");
+//
+//	
+//
+//	/*vec3 lightpos = vec3(-6.5, -10, -1);
+//	string vertexsource = ParseShader("vertex.shader");
+//	string fragmentsource = ParseShader("fragment.shader");
+//
+//	unsigned int program = CreateShader(vertexsource, fragmentsource);
+//
+//	string lightvertsource = ParseShader("lightVertex.shader");
+//	string lightfragsource = ParseShader("lightFragment.shader");
+//
+//	unsigned int lightprogram = CreateShader(lightvertsource, lightfragsource);*/
+//	/*unsigned int viewprojspace = glgetuniformlocation(program, "mvp");
+//	gluniformmatrix4fv(viewprojspace, 1, gl_false, value_ptr(mvp));*/
+//
+//	//unsigned int worldspace = glGetUniformLocation(program, "model");
+//		
+//	float angle = 0;
+//	/* loop until the user closes the window */
+//	while (!window.windowShouldClose())
+//	{
+//		
+//		
+//		processInput(window.getWindow());
+//
+//		
+//		glfwSetCursorPosCallback(window.getWindow(), mouse_callback);
+//
+//		view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+//
+//		// render here 
+//		//glclearcolor(0.0f, 0.0f, 0.0f, 0.0f);
+//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//		//float distance = -0.1;
+//		mat4 mvp = projection * view * model;
+//		mat4 mvplight = projection * view * model * model2;
+//		mat4 mv = view * model;
+//		
+//		//glUseProgram(program);
+//		s.use();
+//		
+//		/*glUniformMatrix4fv(glGetUniformLocation(program, "mvp"), 1, GL_FALSE, value_ptr(mvp));
+//		glUniformMatrix4fv(worldspace, 1, GL_FALSE, value_ptr(model));
+//		glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));*/
+//		
+//		
+//		s.setFloat("mvp", 1, mvp);
+//		s.setFloat("model",1,model);
+//		s.setFloat("viewPos", 1, cameraPos);
+//
+//		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
+//		// where worldspace = glgetuniformlocation(program, "model");
+//		
+//		Cube.bindTexture();
+//		//
+//		//container.bindTexture2D();
+//		//glBindVertexArray(vao);
+//		//VertexArray v = foo.getVAO();
+//		//(foo.getVAO()).bindVAO(0); // here, it appears that I am activating a method of a class upon something taht is not a class as it clearly returns unsigned int 
+//		Cube.getVAO()->bindVAO(0);
+//
+//		//sum of faces * 3
+//		glDrawArrays(GL_TRIANGLES, 0, 36);
+//
+//		
+//		u.use();
+//		//glUseProgram(lightprogram);
+//
+//		//gluniformmatrix4fv(glgetuniformlocation(lightprogram, "mvp"), 1, gl_false, value_ptr(mvp));
+//		//gluniformmatrix4fv(glgetuniformlocation(program, "mv"), 1, gl_false, value_ptr(mv));
+//		u.setFloat("mvplight",1,mvplight);
+//		//glUniform3fv(glGetUniformLocation(lightprogram, "mvplight"), 1, value_ptr(mvplight));
+//
+//		LightCube.getVAO()->bindVAO(0);
+//		//glBindVertexArray(lightvao);
+//
+//		glDrawArrays(GL_TRIANGLES, 0, 36);
+//		
+//		window.swapAndPoll();
+//	}
+//
+//
+//	s.Delete();
+//
+//	glfwTerminate();
+//	return 0;
+//}
