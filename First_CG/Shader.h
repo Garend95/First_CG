@@ -45,6 +45,9 @@ public:
 
 	void setFloat(const std::string& name, float index) const;
 
+	//void setVector(const std::string& name, float count, glm::vec3 vector) const;
+
+	void setVector(const std::string& name, float count, float Xvalue, float Yvlaue, float Zvalue) const;
 
 	// utility function for checking shader compilation/linking errors.
 	// ------------------------------------------------------------------------

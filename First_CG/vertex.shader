@@ -13,6 +13,7 @@ out vec3 var_color;
 uniform mat4 mvp;
 //uniform mat4 mv;
 uniform mat4 model;
+uniform mat4 view;
 
 
 void main()

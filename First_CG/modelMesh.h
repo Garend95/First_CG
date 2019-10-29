@@ -19,14 +19,19 @@ class modelMesh {
         vector<Vertex> vertices;
         vector<unsigned int> indices;
     	vector<Textr> textures;
+		glm::vec3 center;
 	
         /*  Functions  */
         modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Textr> textures);
 
         void Draw(Shader shader);
+
+		glm::vec3 getCenter();
     private:
         /*  Render data  */
 	    unsigned int VAO, VBO, EBO;
+
+		
 
         void setupMesh();
 };

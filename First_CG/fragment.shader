@@ -11,35 +11,60 @@ in vec2 TexCoord;
 //vec3 lightPos = v(6.5, 0.5, -0.5);
 
 
+struct Material {
+	sampler2D diffuse;
+	sampler2D specular;
+	float shininess;
+};
+
+struct Light {
+	vec3 Position;
+	vec3 Pivot;
+
+	float ambientStrength;
+	float diffuseStrength;
+	float specularStrength;
+
+};
+
+
+uniform Material material;
+uniform Light light;
 uniform vec3 viewPos;
+uniform mat4 lightSpan;
+uniform mat4 lightTranslate;
 
 //sending in our texture
 uniform sampler2D ourTexture;
 
 void main()
 {
-	float ambientStrength = 0.1;
-	vec3 ambient = ambientStrength * vec3(1.0f, 1.0f, 1.0f);
+	
+	vec3 ambient = light.ambientStrength * vec3(texture(material.diffuse,TexCoord));
 
 	vec3 norm = normalize(CubeNormal);
-	vec4 lightSource = vec4(3, 6, 3, 1);
+
+	//mat4 offCenter = glm::translate(mat4(1.0), vec3(7, 0, 0));
+	vec4 lightSource = vec4(vec3((light.Position).x, (light.Position).y, (light.Position).z),1) * lightSpan ;
+
+	//diffuse lighting
 	vec3 lightDir = normalize(vec3(lightSource) - FragPos);
+	float diff = max(dot(norm, lightDir), 0.0); 
+	vec3 diffuse = light.diffuseStrength * diff * vec3(texture(material.diffuse,TexCoord));
 
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * vec3(0.0f, 1.0f, 1.0f);;
 
-	float specularStrength = 0.1;
 
+	//specular lighting
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
 
-	float spec = pow(max(dot(viewDir, reflectDir), 0), 32);
-	vec3 specular = specularStrength * spec * vec3(1.0f, 0.0f, 1.0f);
+	float spec = pow(max(dot(viewDir, reflectDir), 0), material.shininess);
+	vec3 specular = light.specularStrength * spec * vec3(texture(material.specular,TexCoord));
 
-	/*texture(ourTexture, TexCoord)*/
+	
 	//vec3 result = (ambient + diffuse + specular) * var_color;
 	//FragColor = vec4(result, 1.0);
 
-	vec4 result = vec4((ambient + diffuse + specular), 1) * texture(ourTexture, TexCoord) /** vec4(var_color, 1)*/;
-	FragColor = result;
+	//vec4 result =  /* vec4(var_color, 1)*/;
+	FragColor = vec4((ambient + diffuse + specular), 1) ;
 };

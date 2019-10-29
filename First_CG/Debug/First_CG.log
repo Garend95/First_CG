@@ -1,3 +1,7 @@
-﻿  ModelLoad.cpp
-C:\Users\Garen\source\repos\First_CG\First_CG\ModelLoad.cpp(91,25): warning C4305:  'initializing': truncation from 'double' to 'float'
+﻿  Scene.cpp
+  The contents of <filesystem> are only available with C++17 or later.
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(117,20): warning C4305: '+=': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(119,20): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(156,25): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(372,42): warning C4305: 'argument': truncation from 'double' to 'float'
   First_CG.vcxproj -> C:\Users\Garen\source\repos\First_CG\Debug\First_CG.exe

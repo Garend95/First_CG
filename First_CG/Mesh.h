@@ -11,7 +11,9 @@ class Mesh{
     private:
         Buffer* buffer;
 		VertexArray* VAO;
-		Texture* tex;
+		//Texture* tex;
+		Texture* diffuseMap;
+		Texture* specularMap;
 
     public:
 		
@@ -23,9 +25,17 @@ class Mesh{
 
 		void assignPointersInVAO(bool colorsEnabled, bool normalsEnabled, bool texturesEnabled);
 
-		void createTexture(const string imagePath, GLint Mode);
+		//void createTexture(const string imagePath, GLint Mode);
 
-		void bindTexture();
+		//void bindTexture();
+
+		void createDiffuseTexture(const string imagePath, GLint Mode);
+
+		void bindDiffuseTexture();
+
+		void createSpecularTexture(const string imagePath, GLint Mode);
+
+		void bindSpecularTexture();
 };
 
 

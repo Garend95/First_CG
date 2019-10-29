@@ -141,7 +141,7 @@ void Shader::setInt(const std::string& name, int value) const
 
 void Shader::setFloat(const std::string& name, float value,  glm::mat4 matrix) const
 {
-        glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), value, GL_FALSE, value_ptr(matrix));
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), value, GL_FALSE, value_ptr(matrix));
    
     //glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
@@ -149,13 +149,23 @@ void Shader::setFloat(const std::string& name, float value,  glm::mat4 matrix) c
 //overloaded with a vector instead of a matrix
 void Shader::setFloat(const std::string& name, float value, glm::vec3 vector) const
 {
-        glUniform3fv(glGetUniformLocation(ID, name.c_str()), value, value_ptr(vector));
+    glUniform3fv(glGetUniformLocation(ID, name.c_str()), value, value_ptr(vector));
    
     //glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
 
 void Shader::setFloat(const std::string& name, float index) const {
 	glUniform1f(glGetUniformLocation(ID, name.c_str()), index);
+}
+
+/*
+void Shader::setVector(const std::string& name, float count, glm::vec3 vector ) const {
+	glUniform3fv(glGetUniformLocation(ID, name.c_str()), count, value_ptr(vector));
+}
+*/
+
+void Shader::setVector(const std::string& name, float count, float Xvalue, float Yvlaue, float Zvalue) const {
+	glUniform3fv(glGetUniformLocation(ID, name.c_str()), count, value_ptr(glm::vec3(Xvalue, Yvlaue, Zvalue)));
 }
 /////PRIVATE
 

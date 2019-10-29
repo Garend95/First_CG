@@ -27,8 +27,8 @@ modelMesh::modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vect
 }
 
 void modelMesh::Draw(Shader shader) {
-    unsigned int diffuseNr = 1;
-    unsigned int specularNr = 1;
+    unsigned int diffuseNr = 1; //
+    unsigned int specularNr = 1; // 
     for (unsigned int i = 0; i < textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         string number;
@@ -47,6 +47,27 @@ void modelMesh::Draw(Shader shader) {
     glBindVertexArray(VAO);// for whatever reason, we don't initialize a window here before rendering
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
+}
+
+glm::vec3 modelMesh::getCenter() {
+	float centerX = 0, 
+		  centerY = 0, 
+		  centerZ = 0;
+
+	int size = vertices.size();
+
+	for (int i = 0; i < size; i++) {
+		centerX += vertices[i].Position.x;
+		centerY += vertices[i].Position.y;
+		centerZ += vertices[i].Position.z;
+	}
+	
+	centerX /= size;
+	centerY /= size;
+	centerZ /= size;
+
+	return glm::vec3(centerX, centerY, centerZ);
+
 }
 
 void modelMesh::setupMesh(){

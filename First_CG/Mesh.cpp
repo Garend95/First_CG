@@ -28,15 +28,44 @@ void Mesh::assignPointersInVAO(bool colorsEnabled, bool normalsEnabled, bool tex
 	(*VAO).assignPointers3D(colorsEnabled, normalsEnabled, texturesEnabled);
 }
 
+/*
 void Mesh::createTexture(const string imagePath, GLint Mode) {
 	
 	tex = new Texture();
 	(*tex).generateAndBindTexture2D(Mode);
-	(*tex).loadTexture(imagePath);
+	(*Texture).loadTexture(imagePath);
 	(*tex).freeImage();
 	
 }
 
 void Mesh::bindTexture() {
 	(*tex).bindTexture2D();
+}
+*/
+
+
+void Mesh::createDiffuseTexture(const string imagePath, GLint Mode) {
+	
+	diffuseMap = new Texture();
+	(*diffuseMap).generateAndBindTexture2D(Mode);
+	(*diffuseMap).loadTexture(imagePath);
+	(*diffuseMap).freeImage();
+	
+}
+
+void Mesh::bindDiffuseTexture() {
+	(*diffuseMap).bindTexture2D();
+}
+
+void Mesh::createSpecularTexture(const string imagePath, GLint Mode) {
+	
+	specularMap = new Texture();
+	(*specularMap).generateAndBindTexture2D(Mode);
+	(*specularMap).loadTexture(imagePath);
+	(*specularMap).freeImage();
+	
+}
+
+void Mesh::bindSpecularTexture() {
+	(*specularMap).bindTexture2D();
 }
