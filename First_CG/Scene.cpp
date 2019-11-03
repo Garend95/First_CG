@@ -301,7 +301,8 @@ int main(void)
 	
 	
 
-	Shader s("vertex.shader","fragment.shader");
+	//Shader s("vertex.shader","fragment.shader");
+	Shader s("Spotlight_VS.shader", "Spotlight_FS.shader");
 	Shader u("lightVertex.shader", "lightFragment.shader");
 
 	
@@ -366,12 +367,23 @@ int main(void)
 		
 		
 		//s.setVector("material.specular", 1, 1.0f, 1.0f, 1.0f);
-		s.setFloat("material.shininess", 32);
+		s.setFloat("material.shininess", 512);
 
-		s.setVector("light.Position", 1, 2, 5, 1);
+		s.setVector("light.position", 1, 2, 5, 1);
 		s.setFloat("light.ambientStrength", 0.1);
 		s.setFloat("light.diffuseStrength", 0.5);
-		s.setFloat("light.specularStrength", 1);
+		s.setFloat("light.specularStrength", 0.8);
+		s.setFloat("light.constant", 1);
+		s.setFloat("light.linear", 0.0);
+		s.setFloat("light.quadratic", 0.032);
+		
+
+		s.setVector("light.position", 1, cameraPos.x, cameraPos.y, cameraPos.z);
+		s.setVector("light.direction", 1, cameraFront.x, cameraFront.y, cameraFront.z);
+		
+		s.setFloat("light.clipAngle", cos(glm::radians(12.5)));
+		s.setFloat("light.outerClipAngle", cos(glm::radians(17.5)));
+
 		/*
 		s.setVector("material.ambient", 1, vec3(1.0f, 0.0f, 0.0f));
 		s.setVector("material.diffuse", 1, vec3(0.0f, 1.0f, 0.0f));

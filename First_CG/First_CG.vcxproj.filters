@@ -33,6 +33,12 @@
     <None Include="..\..\..\..\..\..\OpenGL\model_loadingVS.shader">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Spotlight_VS.shader">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Spotlight_FS.shader">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Scene.cpp">

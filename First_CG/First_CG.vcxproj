@@ -137,6 +137,8 @@
     <None Include="..\lightFragment.shader" />
     <None Include="..\lightVertex.shader" />
     <None Include="fragment.shader" />
+    <None Include="Spotlight_FS.shader" />
+    <None Include="Spotlight_VS.shader" />
     <None Include="vertex.shader" />
   </ItemGroup>
   <ItemGroup>

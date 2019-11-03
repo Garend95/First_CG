@@ -32,19 +32,22 @@ void modelMesh::Draw(Shader shader) {
     for (unsigned int i = 0; i < textures.size(); i++) {
         glActiveTexture(GL_TEXTURE0 + i);
         string number;
-        string name = textures[i].type;
+        string name = textures[i].type; //we cannot have the texture type of an index be both a diffuse and specular
         if (name == "texture_diffuse")
             number = to_string(diffuseNr++);
         else if (name == "texture_specular")
             number = std::to_string(specularNr++);
 
         
+
         shader.setFloat(("material." + name + number).c_str(), i);
+
+        //unassigned id of texture is the address of assignment, hence we can have as many addresses as maximum of 'i'
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);
 
-    glBindVertexArray(VAO);// for whatever reason, we don't initialize a window here before rendering
+    glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
@@ -56,15 +59,24 @@ glm::vec3 modelMesh::getCenter() {
 
 	int size = vertices.size();
 
+    float maxX = vertices[0].Position.x, minX = vertices[0].Position.x,
+          maxY = vertices[0].Position.y, minY = vertices[0].Position.y,
+          maxZ = vertices[0].Position.z, minZ = vertices[0].Position.z;
+
 	for (int i = 0; i < size; i++) {
-		centerX += vertices[i].Position.x;
-		centerY += vertices[i].Position.y;
-		centerZ += vertices[i].Position.z;
+		if (maxX < vertices[i].Position.x) maxX = vertices[i].Position.x;
+        else if (minX > vertices[i].Position.x) minX = vertices[i].Position.x;
+
+        if (maxY < vertices[i].Position.y) maxY = vertices[i].Position.y;
+        else if (minY > vertices[i].Position.y) minY = vertices[i].Position.y;
+
+        if (maxZ < vertices[i].Position.z) maxZ = vertices[i].Position.z;
+        else if (minZ > vertices[i].Position.z) minZ = vertices[i].Position.z;
 	}
 	
-	centerX /= size;
-	centerY /= size;
-	centerZ /= size;
+	centerX = (minX + maxX)/2;
+	centerY = (minY + maxY)/2;
+	centerZ = (minZ + maxZ)/2;
 
 	return glm::vec3(centerX, centerY, centerZ);
 
@@ -74,13 +86,13 @@ void modelMesh::setupMesh(){
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
-
+     
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); //This serves as an index indicator to the variety of vertecies needed 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
         &indices[0], GL_STATIC_DRAW);
 

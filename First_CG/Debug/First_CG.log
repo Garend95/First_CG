@@ -3,5 +3,9 @@
 C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(117,20): warning C4305: '+=': truncation from 'double' to 'float'
 C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(119,20): warning C4305: '-=': truncation from 'double' to 'float'
 C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(156,25): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(372,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(373,42): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(375,43): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(378,38): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(384,36): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Garen\source\repos\First_CG\First_CG\Scene.cpp(385,41): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   First_CG.vcxproj -> C:\Users\Garen\source\repos\First_CG\Debug\First_CG.exe
