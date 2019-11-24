@@ -19,10 +19,12 @@ class modelMesh {
         vector<Vertex> vertices;
         vector<unsigned int> indices;
     	vector<Textr> textures;
+		vector<Material> materials;
+
 		glm::vec3 center;
 	
         /*  Functions  */
-        modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Textr> textures);
+        modelMesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Textr> textures, vector<Material> materials);
 
         void Draw(Shader shader);
 

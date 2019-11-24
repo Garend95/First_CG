@@ -41,6 +41,10 @@ private:
 	modelMesh processMesh(aiMesh* mesh, const aiScene* scene);
 
 	vector<Textr> loadMaterialTextures(aiMaterial* mat, aiTextureType type, string typeName);
+	vector<Material> loadMaterialProperties(aiMaterial* material);
+	
+
+	
 };
 
 unsigned int TextureFromFile(const char* path, const string& directory);

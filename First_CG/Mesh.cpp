@@ -11,8 +11,8 @@ Mesh::Mesh(vector<float> &coordinates) {
 
 	(*buffer).setSize(1);
 	(*buffer).generateBuffers(1);
-	(*buffer).bindBuffer(0);
-	(*buffer).provideBufferData(coordinates, GL_STATIC_DRAW);
+	(*buffer).bindBuffer(0); // <- binds to chosen index
+	(*buffer).provideBufferData(coordinates, GL_STATIC_DRAW); // <- 
 
 	(*VAO).setVASize(1);
 	(*VAO).generateVAO(1, 0);

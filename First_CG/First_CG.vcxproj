@@ -172,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Backup Shader Definitions.txt" />
+    <Text Include="To Do.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

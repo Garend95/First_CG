@@ -11,7 +11,7 @@ in vec3 var_color;
 
 void main()
 {
-	float ambientStrength = 1;
+	float ambientStrength = 0.4;
 	vec3 ambient = ambientStrength * vec3(1f,1f,1f);
 	
 	/*vec3 norm = normalize(Normal);

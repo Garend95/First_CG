@@ -1,0 +1,12 @@
+To reverse model loading effect:
+1: remove modelmesh's material parameter, 
+2: remove global definition of the materiala struct
+3: uncomment portions of the spotlight shader exclusively for the 
+
+4. make camera global <- done
+5. investigate if camera is working.
+
+There are overall 7 meshes for the suit, does this affect the effective provision of the material properties?
+the ambience, diffuse and specular portions of the scene.cpp are passed as vectors (or used to be)
+
+What I did that needs changing: Reconfigured the draw function to do a good job with the original model loading functions 
