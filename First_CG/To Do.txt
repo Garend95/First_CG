@@ -6,7 +6,18 @@ To reverse model loading effect:
 4. make camera global <- done
 5. investigate if camera is working.
 
-There are overall 7 meshes for the suit, does this affect the effective provision of the material properties?
-the ambience, diffuse and specular portions of the scene.cpp are passed as vectors (or used to be)
+6.understand whether there needs to be second resubmissions of the uniform values 
+to be able to render the depth map and shadow with full parameters provided for each
 
-What I did that needs changing: Reconfigured the draw function to do a good job with the original model loading functions 
+
+7 Experiment by disabling/enabling the following:
+dis-transpsoe the normals in the vertex shader of the shadow VS
+re-enable the shadow map and depth map in the Shadow FS
+which texture should be enabled for the thingy to proceed
+re-enable the set active texture to 0 in modelmesh
+
+
+
+Assign something to 
+
+Question: is there anything stopping the camera from moving?

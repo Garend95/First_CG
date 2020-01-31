@@ -1,5 +1,7 @@
-﻿  ModelLoad.cpp
-  The contents of <filesystem> are only available with C++17 or later.
-C:\Users\Garen\source\repos\First_CG\First_CG\ModelLoad.cpp(105,25): warning C4305: 'initializing': truncation from 'double' to 'float'
+﻿  modelMesh.cpp
+C:\Users\Garen\source\repos\First_CG\First_CG\modelMesh.cpp(54,64): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\Garen\source\repos\First_CG\First_CG\modelMesh.cpp(81,46): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\modelMesh.cpp(83,47): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Garen\source\repos\First_CG\First_CG\modelMesh.cpp(86,42): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Garen\source\repos\First_CG\First_CG\Global.h(51): warning C4715: 'globalCamera::get': not all control paths return a value
   First_CG.vcxproj -> C:\Users\Garen\source\repos\First_CG\Debug\First_CG.exe

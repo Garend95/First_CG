@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -136,7 +136,11 @@
     <None Include="..\..\..\..\..\..\OpenGL\model_loadingVS.shader" />
     <None Include="..\lightFragment.shader" />
     <None Include="..\lightVertex.shader" />
+    <None Include="depthShader_FS.shader" />
+    <None Include="depthShader_VS.shader" />
     <None Include="fragment.shader" />
+    <None Include="modelAndShadow_VS.shader" />
+    <None Include="modelAndShadow_FS.shader" />
     <None Include="Spotlight_FS.shader" />
     <None Include="Spotlight_VS.shader" />
     <None Include="vertex.shader" />
@@ -150,6 +154,7 @@
     <ClCompile Include="modelMesh.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Shadow.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="Window.cpp" />
@@ -163,6 +168,7 @@
     <ClInclude Include="Model.h" />
     <ClInclude Include="modelMesh.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Shadow.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexArray.h" />
     <ClInclude Include="Window.h" />

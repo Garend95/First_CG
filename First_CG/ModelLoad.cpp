@@ -21,6 +21,7 @@
 #include "Model.h"
 #include "modelMesh.h"
 #include "Global.h"
+#include "Shadow.h"
 globalCamera globCam;
 
 
@@ -147,7 +148,7 @@ int main(void)
 		return -1;
 
 	/* Create a windowed mode window and its OpenGL context */
-	window = glfwCreateWindow(640, 400, "Hello World", NULL, NULL);
+	window = glfwCreateWindow(1366, 768, "Hello World", NULL, NULL);
 	if (!window)
 	{
 		glfwTerminate();
@@ -176,6 +177,12 @@ int main(void)
 	//const char* vs = "model_loadingVS.shader";
 	//const char* fs = "model_loadingFS.shader";
 	Shader ourShader("C://Users//Garen//source//repos//First_CG//First_CG//Spotlight_VS.shader","C://Users//Garen//source//repos//First_CG//First_CG//Spotlight_FS.shader");
+	Shader depthShader("C://Users//Garen//source//repos//First_CG//First_CG//depthShader_VS.shader", "C://Users//Garen//source//repos//First_CG//First_CG//depthShader_FS.shader");
+	Shader renderShadowShader("C://Users//Garen//source//repos//First_CG//First_CG//modelAndShadow_VS.shader", "C://Users//Garen//source//repos//First_CG//First_CG//modelAndShadow_FS.shader");
+
+	Shadow Sh(1024, 1024);
+	Sh.setupDepthMap();
+
 	//Shader ourShader("C://OpenGL//model_loadingVS.shader", "C://OpenGL//model_loadingFS.shader");
 	//unsigned int program = ourShader.createShader(vs, fs);
 	
@@ -206,7 +213,8 @@ int main(void)
 	string lightFragSource = ParseShader("lightFragment.shader");*/
 
 	
-	ourShader.use();
+	//ourShader.use();
+	
 
 	float angle = 0;
 	/* Loop until the user closes the window */
@@ -215,8 +223,6 @@ int main(void)
 
 
 		processInput(window);
-
-
 		glfwSetCursorPosCallback(window, mouse_callback);
 
 		vec3 p = globCam.get("Pos");
@@ -224,7 +230,7 @@ int main(void)
 		vec3 u = globCam.get("Up");
 		View = glm::lookAt(p, p + f, u);
 
-		mat4 lightSpan = glm::rotate(Model,glm::radians(lightAngle),vec3(0,1,0));
+		//mat4 lightSpan = glm::rotate(Model,glm::radians(lightAngle),vec3(0,1,0));
 		// Render here 
 		glClearColor(0.0f, 0.0f, 0.5f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -236,18 +242,12 @@ int main(void)
 		mat4 mv = View * Model;
 
 		//glUseProgram(program);
-		ourShader.use();
-
-		ourShader.setFloat("mvp", 1, mvp);
-		ourShader.setFloat("model",1,Model);
-		ourShader.setFloat("view", 1, View);
-		ourShader.setFloat("viewPos", 1, p);
-		ourShader.setFloat("lightSpan", 1, lightSpan);
-		// //s.setFloat("lightTranslate", 1, lightTranslate);
-
-		
-		
-		// //s.setVector("material.specular", 1, 1.0f, 1.0f, 1.0f);
+		depthShader.use();
+		//depthShader.setFloat("mvp", 1, mvp);
+		depthShader.setFloat("model",1,Model);
+		//depthShader.setFloat("view", 1, View);
+		//depthShader.setFloat("viewPos", 1, p);
+	
 		// ourShader.setFloat("material.shininess", 128);
 
 		// ourShader.setVector("light.position", 1, 2, 5, 1);
@@ -268,9 +268,17 @@ int main(void)
 		//glUniformMatrix4fv(worldSpace, 1, GL_FALSE, value_ptr(Model));
 		// glUniform3fv(glGetUniformLocation(program, "viewPos"), 1, value_ptr(cameraPos));
 		// where worldSpace = glGetUniformLocation(program, "Model");
-		ourModel.Draw(ourShader);
+		vec3 lightPos = vec3(1.0f, 2.0f, 5.0f);
+		Sh.renderToDepthMap(1.0,7.5,lightPos, depthShader);
+		ourModel.Draw(depthShader);
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+		glViewport(0, 0, 1366, 768); //switch viewport back to screen size  
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		renderShadowShader.use();
+		Sh.renderWithShadowMapping(1.0, 7.5,lightPos,renderShadowShader);
+		ourModel.Draw(renderShadowShader);
 		//Swap front and back buffers 
 		glfwSwapBuffers(window);
 		// Poll for and process events 

@@ -90,15 +90,16 @@ void modelMesh::Draw(Shader shader) {
 	//glm::vec3 u = globCam.get("Up");
 
     shader.setVector("light.position", 1, p.x, p.y, p.z);
-    shader.setVector("light.direction", 1, f.x, f.y, f.z);
+    shader.setVector("light.direction", 1, 1, -1, 0);
    
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0); //is this ever a bad idea
 	/*
    	shader.setFloat("light.clipAngle", cos(glm::radians(12.5)));
     shader.setFloat("light.outerClipAngle", cos(glm::radians(17.5)));
     */
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    //new line, do we need to unbind this? glBindBuffer(GL_ARRAY_BUFFER, 0)
     glBindVertexArray(0);
 }
 

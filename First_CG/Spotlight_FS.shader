@@ -62,9 +62,11 @@ void main()
 
 	//mat4 offCenter = glm::translate(mat4(1.0), vec3(7, 0, 0));
 	//our light position is at the same location of the camera
-	vec4 lightSource = vec4(vec3((light.position).x, (light.position).y, (light.position).z), 1) * lightSpan;
 	
-	vec3 lightDir = normalize(vec3(lightSource) - FragPos);
+	//vec4 lightSource = vec4(vec3((light.position).x, (light.position).y, (light.position).z), 1) * lightSpan;
+	
+	//vec3 lightDir = normalize(vec3(lightSource) - FragPos); use this for point lights and/or spotlights
+	vec3 lightDir = normalize(-light.direction);
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 halfwayDir = normalize(lightDir + viewDir);
 
@@ -81,22 +83,21 @@ void main()
 	float spec = pow(max(dot(norm, halfwayDir), 0.0), shininess);
 	vec4 specular = light.specularStrength * spec * prop.Ks * texture(texture_specular1,TexCoord); //vec3(prop.Ks, prop.Ks, prop.Ks) ;
 
-
 	float distance = length(light.position - FragPos);
-	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance/5));
 
-	ambient *= attenuation;
+	/*ambient *= attenuation;
 	diffuse *= attenuation;
-	specular *= attenuation;
+	specular *= attenuation;*/
 
 	//vec3 result = (ambient + diffuse + specular) * var_color;
 	//FragColor = vec4(result, 1.0);
-	float theta = dot(lightDir, normalize(-light.direction));
+	/*float theta = dot(lightDir, normalize(-light.direction));
 	float epsilon = light.clipAngle - light.outerClipAngle;
 	float intensity = clamp((theta - light.outerClipAngle) / epsilon, 0.0, 1.0);
 
 	diffuse *= intensity;
-	specular *= intensity;
+	specular *= intensity;*/
 	//vec4 result =  /* vec4(var_color, 1)*/;
 
 	//if(theta > light.clipAngle){
